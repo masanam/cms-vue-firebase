@@ -7,10 +7,11 @@ import SignUp from '../components/SignUpForm.vue'
 
 import RouteViewComponent from '../layouts/RouterBypass.vue'
 
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/:pathMatch(.*)*',
-    redirect: { name: 'dashboard' },
+    redirect: { name: 'login' },
   },
   {
     path: '/auth',
@@ -27,6 +28,9 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     component: AppLayout,
     redirect: { name: 'dashboard' },
+    meta: {
+      requiresAuth: true,
+    },    
     children: [
       {
         name: 'dashboard',
@@ -107,6 +111,12 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../pages/auth/CheckTheEmail.vue'),
       },
       {
+        name: 'logout',
+        path: '/logout',
+        component: () => import('../pages/auth/Login.vue'),
+      },
+
+      {
         path: '',
         redirect: { name: 'login' },
       },
@@ -134,5 +144,13 @@ const router = createRouter({
   },
   routes,
 })
+
+// router.beforeEach((to, from, next) => {
+//   if (to.meta.requiresAuth) {
+//     next("dashboard");
+//   } else {
+//     next();
+//   }
+// });
 
 export default router

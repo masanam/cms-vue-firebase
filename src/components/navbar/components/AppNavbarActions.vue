@@ -1,6 +1,5 @@
 <template>
   <div class="app-navbar-actions">
-    
     <ProfileDropdown class="app-navbar-actions__item app-navbar-actions__item--profile mr-1" />
   </div>
 </template>

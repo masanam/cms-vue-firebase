@@ -28,6 +28,14 @@
           </VaListItem>
           <VaListSeparator v-if="group.separator" class="mx-3 my-2" />
         </VaList>
+        <VaIcon name="logout" class="px-4" color="secondary" />
+            <button
+              type="button"
+              @click="UserLogout"
+              class="menu-item text-base cursor-pointer h-8">
+              Logout
+            </button>
+
       </VaDropdownContent>
     </VaDropdown>
   </div>
@@ -37,6 +45,13 @@
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useColors } from 'vuestic-ui'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { auth, firestore } from '../../../../firebase/firebase';
+import { useRouter } from 'vue-router'
+import { useForm, useToast } from 'vuestic-ui'
+
+const { push } = useRouter()
+const { init } = useToast()
 
 const { colors, setHSLAColor } = useColors()
 const hoverColor = computed(() => setHSLAColor(colors.focus, { a: 0.1 }))
@@ -104,17 +119,6 @@ withDefaults(
           },
         ],
       },
-      {
-        name: '',
-        separator: false,
-        list: [
-          {
-            name: 'logout',
-            to: 'login',
-            icon: 'mso-logout',
-          },
-        ],
-      },
     ],
   },
 )
@@ -123,6 +127,13 @@ const isShown = ref(false)
 
 const resolveLinkAttribute = (item: ProfileListItem) => {
   return item.to ? { to: { name: item.to } } : item.href ? { href: item.href, target: '_blank' } : {}
+}
+
+const UserLogout = () => {
+  signOut(auth)
+      init({ message: "You've logout", color: 'success' })
+      push({ name: 'login' })
+
 }
 </script>
 

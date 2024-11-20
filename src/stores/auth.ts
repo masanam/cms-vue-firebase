@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, firestore } from '../firebase/firebase';
 
@@ -10,13 +10,16 @@ interface AuthState {
 export const useAuthStore = defineStore({
     id: 'auth',
     state: (): AuthState => ({
-        user: null
+        user: {
+            loggedIn: false,
+            data: null
+          }
     }),
     actions: {
         async aSignUp(form: { email: string; password: string }) {
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, form.email, form.password);
-                this.user = userCredential.user;        
+                this.user = userCredential.user;     
             } catch (error) {
                 const errorCode = (error as { code: string }).code;
                 const errorMessage = (error as { message: string }).message;
@@ -29,18 +32,32 @@ export const useAuthStore = defineStore({
                     .then(async (userCredential) => {
                         const docRef = doc(firestore, "users", userCredential.user.uid);
                         const docSnap = await getDoc(docRef);
-                        this.user = 'test';
-                        console.log(this.user)
+                        this.user = docSnap.data();
+
+                        // console.log(this.user)
+                        if (docSnap.exists()) {
+                            console.log("Document data:", docSnap.data());
+                        } else {
+                            // doc.data() will be undefined in this case
+                            console.log("No such document!");
+                        }
+                        
                     });
             } catch (error) {
                 const errorCode = (error as { code: string }).code;
                 const errorMessage = (error as { message: string }).message;
                 console.log(errorCode, errorMessage);
             }
-        }
+        },
+        async logOut(context: any){
+            await signOut(auth)
+            context.commit('SET_USER', null)
+        },
     },
     getters: {
-        gUser: (state: AuthState) => state.user,
+        user(state){
+            return state.user
+          }
     }
 });
 

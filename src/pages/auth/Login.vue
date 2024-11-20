@@ -50,6 +50,9 @@ import { useRouter } from 'vue-router'
 import { useForm, useToast } from 'vuestic-ui'
 import { validators } from '../../services/utils'
 import { useAuthStore } from '../../stores/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, firestore } from '../../firebase/firebase';
 
 const authStore = useAuthStore();
 const { validate } = useForm('form')
@@ -64,14 +67,21 @@ const formData = reactive({
 
 const submit = () => {
   if (validate()) {
-    authStore.aSignIn({email: formData.email, password: formData.password});
-
-    if (authStore.user.uid) {
-      // router.push('/');
-      console.log('Login sukses');
-      init({ message: "You've successfully logged in", color: 'success' })
-      push({ name: 'dashboard' })
-    }
+    signInWithEmailAndPassword(auth, formData.email, formData.password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          // alert(`Welcome back, ${user.email}!`);
+          //       console.log('Login sukses');
+//       init({ message: "You've successfully logged in", color: 'success' })
+          push({ name: 'dashboard' })
+        })
+        .catch((error) => {
+          // Handle errors
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // alert(`Error: ${errorCode} - ${errorMessage}`);
+          init({ message: "Login failed", color: 'danger' })
+        });
   }
 }
 
