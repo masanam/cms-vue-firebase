@@ -130,7 +130,7 @@ const resolveLinkAttribute = (item: ProfileListItem) => {
 }
 
 const UserLogout = () => {
-  signOut(auth)
+      signOut(auth)
       init({ message: "You've logout", color: 'success' })
       push({ name: 'login' })
 

@@ -58,25 +58,42 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../pages/projects/ProjectsPage.vue'),
       },
       {
-        name: 'payments',
-        path: '/payments',
+        name: 'frontpage',
+        path: '/frontpage',
         component: RouteViewComponent,
         children: [
           {
-            name: 'payment-methods',
-            path: 'payment-methods',
+            name: 'hero-page',
+            path: 'hero-page',
+            component: () => import('../pages/frontpage/FrontPage.vue'),
+          },
+          {
+            name: 'edit-hero-page',
+            path: 'edit-hero-page/:id',
+            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+          },
+
+          {
+            name: 'global-list',
+            path: 'global-list',
             component: () => import('../pages/payments/PaymentsPage.vue'),
           },
           {
-            name: 'billing',
-            path: 'billing',
+            name: 'company-value',
+            path: 'company-value',
             component: () => import('../pages/billing/BillingPage.vue'),
           },
           {
-            name: 'pricing-plans',
-            path: 'pricing-plans',
+            name: 'ecosystem',
+            path: 'ecosystem',
             component: () => import('../pages/pricing-plans/PricingPlans.vue'),
           },
+          {
+            name: 'latest-news',
+            path: 'latest-news',
+            component: () => import('../pages/pricing-plans/PricingPlans.vue'),
+          },
+
         ],
       },
       {

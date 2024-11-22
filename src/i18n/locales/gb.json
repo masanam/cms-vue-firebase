@@ -54,7 +54,13 @@
     "404": "404",
     "faq": "FAQ",
     "users": "Users",
-    "projects": "Projects"
+    "projects": "Projects",
+    "frontpage":"Front Page",
+    "hero-page":"Hero Page",
+    "global-list":"Global List",
+    "company-value":"Company Value",
+    "ecosystem":"Ecosystem",
+    "latest-news":"Latest News"
   },
   "messages": {
     "all": "See all messages",

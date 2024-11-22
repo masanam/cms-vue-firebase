@@ -55,6 +55,9 @@ import { doc, getDoc } from 'firebase/firestore';
 import { auth, firestore } from '../../firebase/firebase';
 
 const authStore = useAuthStore();
+
+// Untuk mengambil data user:
+const user = authStore.user;
 const { validate } = useForm('form')
 const { push } = useRouter()
 const { init } = useToast()
@@ -85,9 +88,19 @@ const submit = () => {
   }
 }
 
-// const submit = handleSubmit(async (values: { email: string; password: string }) => {
-//     await authStore.aSignIn({ email: values.email, password: values.password });
-//     if (authStore.user.uid) router.push('/');
-// });
+// const submit = () => {
+//   if (validate()) {
+//     authStore.aSignIn({email: formData.email, password: formData.password});
+
+//     // console.log(user);
+
+//     if (user?.email) {
+//       // router.push('/');
+//       console.log('Login sukses');
+//       init({ message: "You've successfully logged in", color: 'success' })
+//       push({ name: 'dashboard' })
+//     }
+//   }
+// }
 
 </script>

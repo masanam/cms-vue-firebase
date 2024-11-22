@@ -34,23 +34,33 @@ export default {
     // },
     {
       name: 'FrontPage',
-      displayName: 'Front Page',
+      displayName: 'menu.frontpage',
       meta: {
         icon: 'credit_card',
       },
       children: [
         {
-          name: 'payment-methods',
-          displayName: 'menu.payment-methods',
+          name: 'hero-page',
+          displayName: 'menu.hero-page',
         },
         {
-          name: 'pricing-plans',
-          displayName: 'menu.pricing-plans',
+          name: 'global-list',
+          displayName: 'menu.global-list',
+        },
+
+        {
+          name: 'company-value',
+          displayName: 'menu.company-value',
         },
         {
-          name: 'billing',
-          displayName: 'menu.billing',
+          name: 'ecosystem',
+          displayName: 'menu.ecosystem',
         },
+        {
+          name: 'latest-news',
+          displayName: 'menu.latest-news',
+        },
+
       ],
     },
     // {
