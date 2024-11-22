@@ -37,14 +37,14 @@ export default defineComponent({
           placeholder: docSnap.data().placeholder,
           button: docSnap.data().button,
         };
-        console.log(this.board);
+        // console.log(this.board);
       } else {
         console.log('Document does not exist');
       }
     },
     async onSubmit (evt: { preventDefault: () => void; }) {
       evt.preventDefault()
-      console.log("submit")
+      // console.log("submit")
       const id = this.key.toString()
       this.$router.push({ name: 'hero-page' })
       await updateDoc(doc(db, 'frontpages', id), {
@@ -56,7 +56,11 @@ export default defineComponent({
           button: this.board.button,
 
       })
+    },
+    onCancel() {
+      this.$router.push({ name: 'hero-page' })
     }
+
   }
 });
 </script>
@@ -88,6 +92,22 @@ export default defineComponent({
                 <label for="image" class="text-sm font-medium text-gray-900 block mb-2">Image</label>
                   <input type="text" name="image" id="image" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.image" >
               </div>
+              <VaFileUpload
+                  type="single"
+                  hide-file-list
+                  class="self-stretch justify-start items-center gap-4 inline-flex"
+                >
+                  <UserAvatar size="large" />
+                  <VaButton preset="primary" class="p-2" size="small">Add image</VaButton>
+                  <VaButton
+                    preset="primary"
+                    color="danger"
+                    size="small"
+                    icon="delete"
+                    class="z-10"
+                  />
+                </VaFileUpload>
+
               <div class="col-span-full">
                 <label for="button" class="text-sm font-medium text-gray-900 block mb-2">Button</label>
                   <input type="text" name="button" id="button" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.button" >
@@ -100,7 +120,7 @@ export default defineComponent({
   </div>
   
     <div class="p-6 flex items-center justify-end gap-x-6 border-t border-gray-200 rounded-b">
-      <button type="button" class="text-sm/6 font-semibold text-gray-900">Cancel</button>
+      <button type="button" @click="onCancel" class="text-sm/6 font-semibold text-gray-900">Cancel</button>
       <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
     </div>
   </form>

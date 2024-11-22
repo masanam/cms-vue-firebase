@@ -10,7 +10,7 @@
             </template>
           </VaInput>
         </div>
-        <VaButton class="p-2">Add User</VaButton>
+        <VaButton class="p-2">Add Data</VaButton>
       </div>
   </caption>
     <thead>
@@ -76,6 +76,14 @@
                 aria-label="Edit data"
               />
             </router-link>
+            <!-- <VaButton
+              preset="primary"
+              size="medium"
+              icon="mso-delete"
+              color="danger"
+              aria-label="Delete data"
+              @click=""
+            /> -->
       </div>
         </td>
       </tr>
@@ -186,7 +194,7 @@ export default defineComponent({
       querySnap.forEach((doc: DocumentData) => {
         this.frontPageList.push(doc.data() as Frontpage);
       });
-      console.log(this.frontPageList);
+      // console.log(this.frontPageList);
     },
     async getGlobalList(): Promise<void> {
       const collectionRef = collection(db, 'globallists');
