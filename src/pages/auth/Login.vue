@@ -49,15 +49,15 @@ import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useForm, useToast } from 'vuestic-ui'
 import { validators } from '../../services/utils'
-import { useAuthStore } from '../../stores/auth';
+import { useUserStore } from '../../stores/user';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { auth, firestore } from '../../firebase/firebase';
+import { auth, db } from '../../firebase/firebase';
 
-const authStore = useAuthStore();
+const authStore = useUserStore();
 
 // Untuk mengambil data user:
-const user = authStore.user;
+// const user = authStore.setUser;
 const { validate } = useForm('form')
 const { push } = useRouter()
 const { init } = useToast()
@@ -72,10 +72,8 @@ const submit = () => {
   if (validate()) {
     signInWithEmailAndPassword(auth, formData.email, formData.password)
         .then((userCredential) => {
-          const user = userCredential.user;
-          // alert(`Welcome back, ${user.email}!`);
-          //       console.log('Login sukses');
-//       init({ message: "You've successfully logged in", color: 'success' })
+          authStore.setUser(userCredential.user);
+          console.log('Login sukses');
           push({ name: 'dashboard' })
         })
         .catch((error) => {
@@ -87,20 +85,5 @@ const submit = () => {
         });
   }
 }
-
-// const submit = () => {
-//   if (validate()) {
-//     authStore.aSignIn({email: formData.email, password: formData.password});
-
-//     // console.log(user);
-
-//     if (user?.email) {
-//       // router.push('/');
-//       console.log('Login sukses');
-//       init({ message: "You've successfully logged in", color: 'success' })
-//       push({ name: 'dashboard' })
-//     }
-//   }
-// }
 
 </script>

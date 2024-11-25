@@ -5,3 +5,4 @@ declare module "vuex" {
     export * from "vuex/types/vue.d.ts";
   }
   
+  

@@ -9042,7 +9042,7 @@ vue-component-type-helpers@latest:
   resolved "https://registry.npmjs.org/vue-component-type-helpers/-/vue-component-type-helpers-1.8.22.tgz"
   integrity sha512-LK3wJHs3vJxHG292C8cnsRusgyC5SEZDCzDCD01mdE/AoREFMl2tzLRuzwyuEsOIz13tqgBcnvysN3Lxsa14Fw==
 
-vue-demi@>=0.13.0, vue-demi@>=0.14.5, vue-demi@>=0.14.6:
+vue-demi@>=0.13.0, vue-demi@>=0.14.5, vue-demi@>=0.14.6, vue-demi@latest:
   version "0.14.6"
   resolved "https://registry.npmjs.org/vue-demi/-/vue-demi-0.14.6.tgz"
   integrity sha512-8QA7wrYSHKaYgUxDA5ZC24w+eHm3sYCbp0EzcDwKqN3p6HqtTCGR/GVsPyZW92unff4UlcSh++lmqDWN3ZIq4w==
@@ -9117,6 +9117,13 @@ vue@3.5.8:
     "@vue/runtime-dom" "3.5.8"
     "@vue/server-renderer" "3.5.8"
     "@vue/shared" "3.5.8"
+
+vuefire@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.npmjs.org/vuefire/-/vuefire-3.2.0.tgz"
+  integrity sha512-fcJqNwPeGgL5vx++c0bVjMvYvZUzPHoYLPmlQpB0AS7722P+staJViG3RlcjNGMu7fgA1+HmGm5uwngFwVqnRw==
+  dependencies:
+    vue-demi latest
 
 vuestic-ui@^1.10.2:
   version "1.10.2"

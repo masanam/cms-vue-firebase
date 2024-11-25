@@ -3,10 +3,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import AuthLayout from '../layouts/AuthLayout.vue'
 import AppLayout from '../layouts/AppLayout.vue'
 import SignUp from '../components/SignUpForm.vue'
-
-
 import RouteViewComponent from '../layouts/RouterBypass.vue'
-
+import authGuard from './auth-guard'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -28,10 +26,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     component: AppLayout,
     redirect: { name: 'dashboard' },
-    meta: {
-      requiresAuth: true,
-    },    
-    children: [
+    // beforeEnter: authGuard,
+    // meta: {
+    //   requiresAuth: true,
+    // },
+      children: [
       {
         name: 'dashboard',
         path: 'dashboard',
@@ -76,22 +75,22 @@ const routes: Array<RouteRecordRaw> = [
           {
             name: 'global-list',
             path: 'global-list',
-            component: () => import('../pages/payments/PaymentsPage.vue'),
+            component: () => import('../pages/frontpage/FrontPage.vue'),
           },
           {
             name: 'company-value',
             path: 'company-value',
-            component: () => import('../pages/billing/BillingPage.vue'),
+            component: () => import('../pages/frontpage/FrontPage.vue'),
           },
           {
             name: 'ecosystem',
             path: 'ecosystem',
-            component: () => import('../pages/pricing-plans/PricingPlans.vue'),
+            component: () => import('../pages/frontpage/FrontPage.vue'),
           },
           {
             name: 'latest-news',
             path: 'latest-news',
-            component: () => import('../pages/pricing-plans/PricingPlans.vue'),
+            component: () => import('../pages/frontpage/FrontPage.vue'),
           },
 
         ],
@@ -162,12 +161,12 @@ const router = createRouter({
   routes,
 })
 
-// router.beforeEach((to, from, next) => {
-//   if (to.meta.requiresAuth) {
-//     next("dashboard");
-//   } else {
-//     next();
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    authGuard(to, from, next);
+  } else {
+    next();
+  }
+});
 
 export default router

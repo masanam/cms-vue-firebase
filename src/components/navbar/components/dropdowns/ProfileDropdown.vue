@@ -46,7 +46,7 @@ import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useColors } from 'vuestic-ui'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { auth, firestore } from '../../../../firebase/firebase';
+import { auth, db } from '../../../../firebase/firebase';
 import { useRouter } from 'vue-router'
 import { useForm, useToast } from 'vuestic-ui'
 
@@ -90,16 +90,6 @@ withDefaults(
             name: 'settings',
             to: 'settings',
             icon: 'mso-settings',
-          },
-          {
-            name: 'billing',
-            to: 'billing',
-            icon: 'mso-receipt_long',
-          },
-          {
-            name: 'projects',
-            to: 'projects',
-            icon: 'mso-favorite',
           },
         ],
       },

@@ -28,7 +28,6 @@ app.use(i18n)
 app.use(createVuestic({ config: vuesticGlobalConfig }))
 app.use(vuetify)
 
-
 if (import.meta.env.VITE_APP_GTM_ENABLED) {
   app.use(
     createGtm({
