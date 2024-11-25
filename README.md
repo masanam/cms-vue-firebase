@@ -1,4 +1,4 @@
-# devmeetup-vue
+# cms-vue
 
 A CMS application built with Vue + Vuetify + Firebase.
 
