@@ -10,7 +10,7 @@
             </template>
           </VaInput>
         </div>
-        <VaButton class="p-2">Add Data</VaButton>
+        <!-- <VaButton class="p-2">Add Data</VaButton> -->
       </div>
   </caption>
     <thead>

@@ -69,8 +69,19 @@ const routes: Array<RouteRecordRaw> = [
       {
         name: 'job-list',
         path: 'job-list',
-        component: () => import('../pages/users/UsersPage.vue'),
+        component: () => import('../pages/job-list/JobListPage.vue'),
       },
+      {
+        name: 'add-job-list',
+        path: 'add-job-list',
+        component: () => import('../pages/job-list/AddJobListPage.vue'),
+      },
+      {
+        name: 'edit-job-list',
+        path: 'edit-job-list/:id',
+        component: () => import('../pages/job-list/EditJobListPage.vue'),
+      },
+
 
       {
         name: 'projects',
