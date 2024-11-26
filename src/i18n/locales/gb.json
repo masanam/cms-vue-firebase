@@ -60,7 +60,9 @@
     "global-list":"Global List",
     "company-value":"Company Value",
     "ecosystem":"Ecosystem",
-    "latest-news":"Latest News"
+    "latest-news":"Latest News",
+    "job-list":"Job List"
+
   },
   "messages": {
     "all": "See all messages",

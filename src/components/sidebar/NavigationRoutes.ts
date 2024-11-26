@@ -19,19 +19,26 @@ export default {
       },
     },
     {
+      name: 'latest-news',
+      displayName: 'menu.latest-news',
+      meta: {
+        icon: 'group',
+      },
+    },
+    {
+      name: 'job-list',
+      displayName: 'menu.job-list',
+      meta: {
+        icon: 'group',
+      },
+    },
+    {
       name: 'users',
       displayName: 'menu.users',
       meta: {
         icon: 'group',
       },
     },
-    // {
-    //   name: 'projects',
-    //   displayName: 'menu.projects',
-    //   meta: {
-    //     icon: 'folder_shared',
-    //   },
-    // },
     {
       name: 'FrontPage',
       displayName: 'menu.frontpage',
@@ -56,11 +63,6 @@ export default {
           name: 'ecosystem',
           displayName: 'menu.ecosystem',
         },
-        {
-          name: 'latest-news',
-          displayName: 'menu.latest-news',
-        },
-
       ],
     },
     // {

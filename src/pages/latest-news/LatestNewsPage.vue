@@ -10,7 +10,9 @@
             </template>
           </VaInput>
         </div>
+        <router-link :to="{name: 'add-latest-news'}" class="btn btn-primary">
         <VaButton class="p-2">Add Data</VaButton>
+        </router-link>
       </div>
   </caption>
     <thead>
@@ -19,10 +21,10 @@
             Id
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Title
+            Category
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            SubTitle
+            Title
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
             Content
@@ -31,10 +33,10 @@
             Image
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Placeholder
+            Author
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Button
+            Published
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
             Action        
@@ -42,15 +44,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="hover:bg-slate-50" tr v-for="item in frontPageList" :key="item.id">
+      <tr class="hover:bg-slate-50" tr v-for="item in latestNews" :key="item.id">
         <td class="p-4 border-b border-slate-200">
           {{ item.id }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.title }}
+          {{ item.category }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.subTitle }}
+          {{ item.title }}
         </td>
         <td class="p-4 border-b border-slate-200">
           {{ item.content }}
@@ -59,16 +61,14 @@
           {{ item.image }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.placeholder }}
+          {{ item.author }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.button }}
+          {{ item.published.toDate().toDateString() }}
         </td>
-
-
         <td class="p-4 border-b border-slate-200">
           <div class="flex gap-2 justify-end">
-            <router-link :to="{name: 'edit-hero-page', params: { id: item.id }}" class="btn btn-primary">
+            <router-link :to="{name: 'edit-latest-news', params: { id: item.id }}" class="btn btn-primary">
               <VaButton
                 preset="primary"
                 size="medium"
@@ -76,14 +76,14 @@
                 aria-label="Edit data"
               />
             </router-link>
-            <!-- <VaButton
+            <VaButton
               preset="primary"
               size="medium"
               icon="mso-delete"
               color="danger"
               aria-label="Delete data"
-              @click=""
-            /> -->
+              @click="deleteData(item.id.toString())"
+            />
       </div>
         </td>
       </tr>
@@ -123,38 +123,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { query, collection, getDocs, DocumentData, orderBy } from "firebase/firestore";
+import { deleteDoc, query, collection, getDocs, DocumentData, orderBy, Timestamp, doc, updateDoc, deleteField } from "firebase/firestore";
 import { auth, db } from '../../firebase/firebase';
-
-interface Frontpage {
-    id: number,
-    image: string,
-    title: string,
-    subTitle: string,
-    content: string,
-    placeholder: string,
-    button: string
-}
-
-interface globalList {
-    id: number,
-    icon: string,
-    title: string,
-    number: string
-}
-
-interface companyValue {
-    id: number,
-    icon: string,
-    title: string,
-    subTitle: string
-}
-
-interface ecosystem {
-    id: number,
-    title: string,
-    subTitle: string
-}
+import { useModal, useToast } from 'vuestic-ui'
 
 interface latestNews {
     id: number,
@@ -162,72 +133,39 @@ interface latestNews {
     category: string,
     title: string,
     author: string,
-    published: string,
+    published: Timestamp,
     content: string
 }
 
 export default defineComponent({
   data() {
     return {
-      frontPageList: [] as Frontpage[],
-      globalList: [] as globalList[],
-      companyValues: [] as companyValue[],
-      ecosystem: [] as ecosystem[],
       latestNews: [] as latestNews[]
     };
   },
   created() {
-    this.getFrontPage();
-    this.getGlobalList();
-    this.getCompanyValue();
-    this.getEcoSystem();
     this.getLatestNews();
   },
   methods: {
-    frontPage(id = 0){
-      return this.frontPageList[id] || {}
-    },
-    async getFrontPage(): Promise<void> {
-      const collectionRef = collection(db, 'frontpages');
-      const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
-
-      querySnap.forEach((doc: DocumentData) => {
-        this.frontPageList.push(doc.data() as Frontpage);
-      });
-      // console.log(this.frontPageList);
-    },
-    async getGlobalList(): Promise<void> {
-      const collectionRef = collection(db, 'globallists');
-      const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
-
-      querySnap.forEach((doc: DocumentData) => {
-        this.globalList.push(doc.data() as globalList);
-      });
-    },
-    async getCompanyValue(): Promise<void> {
-      const collectionRef = collection(db, 'companyValues');
-      const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
-
-      querySnap.forEach((doc: DocumentData) => {
-        this.companyValues.push(doc.data() as companyValue);
-      });
-    },
-    async getEcoSystem(): Promise<void> {
-      const collectionRef = collection(db, 'ecosystem');
-      const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
-
-      querySnap.forEach((doc: DocumentData) => {
-        this.ecosystem.push(doc.data() as ecosystem);
-      });
-    },
     async getLatestNews(): Promise<void> {
       const collectionRef = collection(db, 'latestNews');
-      const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
+      const querySnap = await getDocs(query(collectionRef, orderBy('id','desc')));
 
       querySnap.forEach((doc: DocumentData) => {
         this.latestNews.push(doc.data() as latestNews);
       });
-    }
+    },
+
+    async deleteData(id: string): Promise<void> {
+        const { init: notify } = useToast();
+        await deleteDoc(doc(db, "latestNews", id));
+        notify({
+          message: `data has been deleted`,
+          color: 'success',
+        });
+        setTimeout(() => location.reload(), 1000);
+        
+      }
   }
   
 });

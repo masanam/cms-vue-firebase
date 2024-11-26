@@ -52,13 +52,34 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../pages/users/UsersPage.vue'),
       },
       {
+        name: 'latest-news',
+        path: 'latest-news',
+        component: () => import('../pages/latest-news/LatestNewsPage.vue'),
+      },
+      {
+        name: 'edit-latest-news',
+        path: 'edit-latest-news/:id',
+        component: () => import('../pages/latest-news/EditNewsPage.vue'),
+      },
+      {
+        name: 'add-latest-news',
+        path: 'add-latest-news',
+        component: () => import('../pages/latest-news/AddNewsPage.vue'),
+      },
+      {
+        name: 'job-list',
+        path: 'job-list',
+        component: () => import('../pages/users/UsersPage.vue'),
+      },
+
+      {
         name: 'projects',
         path: 'projects',
         component: () => import('../pages/projects/ProjectsPage.vue'),
       },
       {
         name: 'frontpage',
-        path: '/frontpage',
+        path: 'frontpage',
         component: RouteViewComponent,
         children: [
           {
@@ -86,12 +107,12 @@ const routes: Array<RouteRecordRaw> = [
             name: 'ecosystem',
             path: 'ecosystem',
             component: () => import('../pages/frontpage/FrontPage.vue'),
-          },
-          {
-            name: 'latest-news',
-            path: 'latest-news',
-            component: () => import('../pages/frontpage/FrontPage.vue'),
-          },
+          }
+          // {
+          //   name: 'latest-news',
+          //   path: 'latest-news',
+          //   component: () => import('../pages/frontpage/FrontPage.vue'),
+          // },
 
         ],
       },

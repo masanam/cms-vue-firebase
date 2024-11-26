@@ -14,6 +14,7 @@
           >
             <VaSidebarItemContent class="py-3 pr-2 pl-4">
               <VaIcon
+                class="mr-2"
                 v-if="route.meta.icon"
                 aria-hidden="true"
                 :name="route.meta.icon"
