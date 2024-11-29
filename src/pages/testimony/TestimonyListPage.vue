@@ -10,7 +10,7 @@
             </template>
           </VaInput>
         </div>
-        <router-link :to="{name: 'add-job-list'}" class="btn btn-primary">
+        <router-link :to="{name: 'add-faq-page'}" class="btn btn-primary">
         <VaButton class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 p-2">Add Data</VaButton>
         </router-link>
       </div>
@@ -24,10 +24,13 @@
             Title
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Location
+            Name
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Button
+            Image
+        </th>
+        <th class="p-4 border-b border-slate-300 bg-slate-50">
+            Comment
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
             Published
@@ -38,7 +41,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="hover:bg-slate-50" tr v-for="item in jobs" :key="item.id">
+      <tr class="hover:bg-slate-50" tr v-for="item in testimonies" :key="item.id">
         <td class="p-4 border-b border-slate-200">
           {{ item.id }}
         </td>
@@ -46,18 +49,20 @@
           {{ item.title }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.subTitle }}
+          {{ item.name }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.button }}
+          {{ item.image }}
         </td>
-
+        <td class="p-4 border-b border-slate-200">
+          {{ item.comment }}
+        </td>
         <td class="p-4 border-b border-slate-200">
           {{ item.published.toDate().toDateString() }}
         </td>
         <td class="p-4 border-b border-slate-200">
           <div class="flex gap-2 justify-end">
-            <router-link :to="{name: 'edit-job-list', params: { id: item.id }}" class="btn btn-primary">
+            <router-link :to="{name: 'edit-faq-page', params: { id: item.id }}" class="btn btn-primary">
               <VaButton
                 preset="primary"
                 size="medium"
@@ -116,37 +121,37 @@ import { deleteDoc, query, collection, getDocs, DocumentData, orderBy, Timestamp
 import { auth, db } from '../../firebase/firebase';
 import { useModal, useToast } from 'vuestic-ui'
 
-interface jobs {
+interface testimonies {
     id: number,
-    subTitle: string,
+    image: string,
+    name: string,
     title: string,
-    button: string,
+    comment: string,
     published: Timestamp,
-    content: string
 }
 
 export default defineComponent({
   data() {
     return {
-      jobs: [] as jobs[]
+      testimonies: [] as testimonies[]
     };
   },
   created() {
-    this.getLatestNews();
+    this.getTestimonies();
   },
   methods: {
-    async getLatestNews(): Promise<void> {
-      const collectionRef = collection(db, 'jobs');
+    async getTestimonies(): Promise<void> {
+      const collectionRef = collection(db, 'testimonies');
       const querySnap = await getDocs(query(collectionRef, orderBy('id','desc')));
 
       querySnap.forEach((doc: DocumentData) => {
-        this.jobs.push(doc.data() as jobs);
+        this.testimonies.push(doc.data() as testimonies);
       });
     },
 
     async deleteData(id: string): Promise<void> {
         const { init: notify } = useToast();
-        await deleteDoc(doc(db, "jobs", id));
+        await deleteDoc(doc(db, "testimonies", id));
         notify({
           message: `data has been deleted`,
           color: 'success',

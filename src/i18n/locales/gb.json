@@ -61,7 +61,49 @@
     "company-value":"Company Value",
     "ecosystem":"Ecosystem",
     "latest-news":"Latest News",
-    "job-list":"Job List"
+    "job-list":"Job List",
+    "about-us":"About Us",
+    "about-page":"About Page",
+    "our-mission":"Our Mission",
+    "company-overview":"Company Overview",
+    "our-commitment":"Our Commitment",
+    "product-list":"Product List",
+    "product-page":"Product Page",
+    "featured-product":"Featured Product",
+    "business-expand":"Expand Your Business",
+    "business-page":"Business Page",
+    "faq-page":"FAQ",
+    "testimony":"Testimony",
+    "packages":"Packages",
+    "our-support":"Our Support",
+    "our-gateway":"Our Gateway",
+    "achievement":"Achievement",
+    "blog-page":"Blog",
+    "join-us":"Join Us",
+    "join-page":"Join Page",
+    "contact-us":"Contact Us",
+    "contact-page":"Contact Page",
+    "office-page":"Offices Page"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   },
   "messages": {

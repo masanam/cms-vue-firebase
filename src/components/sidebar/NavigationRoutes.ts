@@ -22,25 +22,62 @@ export default {
       name: 'latest-news',
       displayName: 'menu.latest-news',
       meta: {
-        icon: 'group',
+        icon: 'vuestic-iconset-files',
       },
     },
     {
       name: 'job-list',
       displayName: 'menu.job-list',
       meta: {
-        icon: 'group',
+        icon: 'vuestic-iconset-files',
       },
     },
     {
-      name: 'users',
-      displayName: 'menu.users',
+      name: 'product-list',
+      displayName: 'menu.product-list',
       meta: {
-        icon: 'group',
+        icon: 'vuestic-iconset-files',
       },
     },
     {
-      name: 'FrontPage',
+      name: 'testimony',
+      displayName: 'menu.testimony',
+      meta: {
+        icon: 'vuestic-iconset-files',
+      },
+    },
+    {
+      name: 'faq-page',
+      displayName: 'menu.faq-page',
+      meta: {
+        icon: 'vuestic-iconset-files',
+      },
+    },
+    {
+      name: 'blog-page',
+      displayName: 'menu.blog-page',
+      meta: {
+        icon: 'vuestic-iconset-files',
+      },
+    },
+    {
+      name: 'office-page',
+      displayName: 'menu.office-page',
+      meta: {
+        icon: 'vuestic-iconset-files',
+      },
+    },
+
+
+    // {
+    //   name: 'users',
+    //   displayName: 'menu.users',
+    //   meta: {
+    //     icon: 'group',
+    //   },
+    // },
+    {
+      name: 'frontpage',
       displayName: 'menu.frontpage',
       meta: {
         icon: 'credit_card',
@@ -65,6 +102,101 @@ export default {
         },
       ],
     },
+    {
+      name: 'about-us',
+      displayName: 'menu.about-us',
+      meta: {
+        icon: 'credit_card',
+      },
+      children: [
+        {
+          name: 'about-page',
+          displayName: 'menu.about-page',
+        },
+        {
+          name: 'our-mission',
+          displayName: 'menu.our-mission',
+        },
+        {
+          name: 'company-overview',
+          displayName: 'menu.company-overview',
+        },
+
+        {
+          name: 'our-commitment',
+          displayName: 'menu.our-commitment',
+        },
+      ],
+    },
+    {
+      name: 'featured-product',
+      displayName: 'menu.featured-product',
+      meta: {
+        icon: 'credit_card',
+      },
+      children: [
+        {
+          name: 'product-page',
+          displayName: 'menu.product-page',
+        },
+      ],
+    },
+    {
+      name: 'business-expand',
+      displayName: 'menu.business-expand',
+      meta: {
+        icon: 'credit_card',
+      },
+      children: [
+        {
+          name: 'business-page',
+          displayName: 'menu.business-page',
+        },
+        {
+          name: 'achievement',
+          displayName: 'menu.achievement',
+        },
+        {
+          name: 'our-gateway',
+          displayName: 'menu.our-gateway',
+        },
+        {
+          name: 'our-support',
+          displayName: 'menu.our-support',
+        },
+        {
+          name: 'packages',
+          displayName: 'menu.packages',
+        },
+      ],
+    },
+    {
+      name: 'join-us',
+      displayName: 'menu.join-us',
+      meta: {
+        icon: 'credit_card',
+      },
+      children: [
+        {
+          name: 'join-page',
+          displayName: 'menu.join-page',
+        },
+      ],
+    },
+    {
+      name: 'contact-us',
+      displayName: 'menu.contact-us',
+      meta: {
+        icon: 'credit_card',
+      },
+      children: [
+        {
+          name: 'contact-page',
+          displayName: 'menu.contact-page',
+        },
+      ],
+    },
+
     // {
     //   name: 'auth',
     //   displayName: 'menu.auth',

@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white border border-4 rounded-lg shadow relative m-4">
-    <table class="w-full text-left table-auto border-collapse">
+    <table class="text-left table-auto border-collapse">
       <caption class="caption-top p-4 border-b">
         <div class="flex flex-col md:flex-row gap-2 mb-2 justify-between">
         <div class="flex flex-col md:flex-row gap-2 justify-start">
@@ -10,8 +10,8 @@
             </template>
           </VaInput>
         </div>
-        <router-link :to="{name: 'add-job-list'}" class="btn btn-primary">
-        <VaButton class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 p-2">Add Data</VaButton>
+        <router-link :to="{name: 'add-blog-page'}" class="btn btn-primary">
+          <VaButton class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 p-2">Add Data</VaButton>
         </router-link>
       </div>
   </caption>
@@ -21,13 +21,22 @@
             Id
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
+            Category
+        </th>
+        <th class="p-4 border-b border-slate-300 bg-slate-50">
             Title
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Location
+            Content
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Button
+            Image
+        </th>
+        <th class="p-4 border-b border-slate-300 bg-slate-50">
+            View
+        </th>
+        <th class="p-4 border-b border-slate-300 bg-slate-50">
+            Comment
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
             Published
@@ -38,18 +47,27 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="hover:bg-slate-50" tr v-for="item in jobs" :key="item.id">
+      <tr class="hover:bg-slate-50" tr v-for="item in blogs" :key="item.id">
         <td class="p-4 border-b border-slate-200">
           {{ item.id }}
+        </td>
+        <td class="p-4 border-b border-slate-200">
+          {{ item.category }}
         </td>
         <td class="p-4 border-b border-slate-200">
           {{ item.title }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.subTitle }}
+          {{ item.content }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.button }}
+          {{ item.image }}
+        </td>
+        <td class="p-4 border-b border-slate-200">
+          {{ item.view }}
+        </td>
+        <td class="p-4 border-b border-slate-200">
+          {{ item.comment }}
         </td>
 
         <td class="p-4 border-b border-slate-200">
@@ -57,7 +75,7 @@
         </td>
         <td class="p-4 border-b border-slate-200">
           <div class="flex gap-2 justify-end">
-            <router-link :to="{name: 'edit-job-list', params: { id: item.id }}" class="btn btn-primary">
+            <router-link :to="{name: 'edit-blog-page', params: { id: item.id }}" class="btn btn-primary">
               <VaButton
                 preset="primary"
                 size="medium"
@@ -116,11 +134,13 @@ import { deleteDoc, query, collection, getDocs, DocumentData, orderBy, Timestamp
 import { auth, db } from '../../firebase/firebase';
 import { useModal, useToast } from 'vuestic-ui'
 
-interface jobs {
+interface blogs {
     id: number,
-    subTitle: string,
+    image: string,
+    category: string,
     title: string,
-    button: string,
+    view: string,
+    comment: string,
     published: Timestamp,
     content: string
 }
@@ -128,7 +148,7 @@ interface jobs {
 export default defineComponent({
   data() {
     return {
-      jobs: [] as jobs[]
+      blogs: [] as blogs[]
     };
   },
   created() {
@@ -136,17 +156,17 @@ export default defineComponent({
   },
   methods: {
     async getLatestNews(): Promise<void> {
-      const collectionRef = collection(db, 'jobs');
+      const collectionRef = collection(db, 'blogs');
       const querySnap = await getDocs(query(collectionRef, orderBy('id','desc')));
 
       querySnap.forEach((doc: DocumentData) => {
-        this.jobs.push(doc.data() as jobs);
+        this.blogs.push(doc.data() as blogs);
       });
     },
 
     async deleteData(id: string): Promise<void> {
         const { init: notify } = useToast();
-        await deleteDoc(doc(db, "jobs", id));
+        await deleteDoc(doc(db, "blogs", id));
         notify({
           message: `data has been deleted`,
           color: 'success',

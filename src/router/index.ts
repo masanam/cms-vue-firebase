@@ -81,7 +81,81 @@ const routes: Array<RouteRecordRaw> = [
         path: 'edit-job-list/:id',
         component: () => import('../pages/job-list/EditJobListPage.vue'),
       },
-
+      {
+        name: 'product-list',
+        path: 'product-list',
+        component: () => import('../pages/product-list/ProductListPage.vue'),
+      },
+      {
+        name: 'add-product-list',
+        path: 'add-product-list',
+        component: () => import('../pages/product-list/AddProductListPage.vue'),
+      },
+      {
+        name: 'edit-product-list',
+        path: 'edit-product-list/:id',
+        component: () => import('../pages/product-list/EditProductListPage.vue'),
+      },
+      {
+        name: 'testimony',
+        path: 'testimony',
+        component: () => import('../pages/testimony/TestimonyListPage.vue'),
+      },
+      {
+        name: 'add-testimony',
+        path: 'add-testimony',
+        component: () => import('../pages/testimony/AddTestimonyListPage.vue'),
+      },
+      {
+        name: 'edit-testimony',
+        path: 'edit-testimony/:id',
+        component: () => import('../pages/testimony/EditTestimonyListPage.vue'),
+      },
+      {
+        name: 'faq-page',
+        path: 'faq-page',
+        component: () => import('../pages/faq-page/FaqListPage.vue'),
+      },
+      {
+        name: 'add-faq-page',
+        path: 'add-faq-page',
+        component: () => import('../pages/faq-page/AddFaqListPage.vue'),
+      },
+      {
+        name: 'edit-faq-page',
+        path: 'edit-faq-page/:id',
+        component: () => import('../pages/faq-page/EditFaqListPage.vue'),
+      },
+      {
+        name: 'blog-page',
+        path: 'blog-page',
+        component: () => import('../pages/blog-page/BlogPage.vue'),
+      },
+      {
+        name: 'add-blog-page',
+        path: 'add-blog-page',
+        component: () => import('../pages/blog-page/AddBlogPage.vue'),
+      },
+      {
+        name: 'edit-blog-page',
+        path: 'edit-blog-page/:id',
+        component: () => import('../pages/blog-page/EditBlogPage.vue'),
+      },
+      {
+        name: 'office-page',
+        path: 'office-page',
+        component: () => import('../pages/office-page/OfficePage.vue'),
+      },
+      {
+        name: 'add-office-page',
+        path: 'add-office-page',
+        component: () => import('../pages/office-page/AddOfficePage.vue'),
+      },
+      {
+        name: 'edit-office-page',
+        path: 'edit-office-page/:id',
+        component: () => import('../pages/office-page/EditOfficePage.vue'),
+      },
 
       {
         name: 'projects',
@@ -103,35 +177,199 @@ const routes: Array<RouteRecordRaw> = [
             path: 'edit-hero-page/:id',
             component: () => import('../pages/frontpage/EditFrontPage.vue'),
           },
-
           {
             name: 'global-list',
             path: 'global-list',
-            component: () => import('../pages/frontpage/FrontPage.vue'),
+            component: () => import('../pages/global-list/GlobalListPage.vue'),
+          },
+          {
+            name: 'edit-global-list',
+            path: 'edit-global-list/:id',
+            component: () => import('../pages/global-list/EditGlobalListPage.vue'),
           },
           {
             name: 'company-value',
             path: 'company-value',
-            component: () => import('../pages/frontpage/FrontPage.vue'),
+            component: () => import('../pages/company-value/CompanyValuePage.vue'),
+          },
+          {
+            name: 'edit-company-value',
+            path: 'edit-company-value/:id',
+            component: () => import('../pages/company-value/EditCompanyValuePage.vue'),
           },
           {
             name: 'ecosystem',
             path: 'ecosystem',
-            component: () => import('../pages/frontpage/FrontPage.vue'),
+            component: () => import('../pages/ecosystem/EcoSystemPage.vue'),
+          },
+          {
+            name: 'edit-ecosystem',
+            path: 'edit-ecosystem/:id',
+            component: () => import('../pages/ecosystem/EditEcoSystemPage.vue'),
           }
-          // {
-          //   name: 'latest-news',
-          //   path: 'latest-news',
-          //   component: () => import('../pages/frontpage/FrontPage.vue'),
-          // },
-
         ],
       },
       {
-        name: 'faq',
-        path: '/faq',
-        component: () => import('../pages/faq/FaqPage.vue'),
+        name: 'about-us',
+        path: 'about-us',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'about-page',
+            path: 'about-page',
+            component: () => import('../pages/frontpage/FrontPage.vue'),
+          },
+          {
+            name: 'edit-about-page',
+            path: 'edit-about-page/:id',
+            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+          },
+          {
+            name: 'our-mission',
+            path: 'our-mission',
+            component: () => import('../pages/global-list/GlobalListPage.vue'),
+          },
+          {
+            name: 'edit-our-mission',
+            path: 'edit-our-mission/:id',
+            component: () => import('../pages/global-list/EditGlobalListPage.vue'),
+          },
+          {
+            name: 'company-overview',
+            path: 'company-overview',
+            component: () => import('../pages/global-list/GlobalListPage.vue'),
+          },
+          {
+            name: 'edit-company-overview',
+            path: 'edit-company-overview/:id',
+            component: () => import('../pages/global-list/EditGlobalListPage.vue'),
+          },
+          {
+            name: 'our-commitment',
+            path: 'our-commitment',
+            component: () => import('../pages/global-list/GlobalListPage.vue'),
+          },
+          {
+            name: 'edit-our-commitment',
+            path: 'edit-our-commitment/:id',
+            component: () => import('../pages/global-list/EditGlobalListPage.vue'),
+          },
+        ],
       },
+      {
+        name: 'featured-product',
+        path: 'featured-product',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'product-page',
+            path: 'product-page',
+            component: () => import('../pages/frontpage/FrontPage.vue'),
+          },
+          {
+            name: 'edit-product-page',
+            path: 'edit-product-page/:id',
+            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+          },
+        ],
+      },
+      {
+        name: 'bussines-expand',
+        path: 'bussines-expand',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'business-page',
+            path: 'business-page',
+            component: () => import('../pages/frontpage/FrontPage.vue'),
+          },
+          {
+            name: 'edit-business-page',
+            path: 'edit-business-page/:id',
+            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+          },
+          {
+            name: 'achievement',
+            path: 'achievement',
+            component: () => import('../pages/frontpage/FrontPage.vue'),
+          },
+          {
+            name: 'edit-achievement',
+            path: 'edit-achievement/:id',
+            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+          },
+          {
+            name: 'our-gateway',
+            path: 'our-gateway',
+            component: () => import('../pages/frontpage/FrontPage.vue'),
+          },
+          {
+            name: 'edit-our-gateway',
+            path: 'edit-our-gateway/:id',
+            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+          },
+          {
+            name: 'our-support',
+            path: 'our-support',
+            component: () => import('../pages/frontpage/FrontPage.vue'),
+          },
+          {
+            name: 'edit-our-support',
+            path: 'edit-our-support/:id',
+            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+          },
+          {
+            name: 'packages',
+            path: 'packages',
+            component: () => import('../pages/frontpage/FrontPage.vue'),
+          },
+          {
+            name: 'edit-packages',
+            path: 'edit-packages/:id',
+            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+          },
+        ],
+      },
+      {
+        name: 'join-us',
+        path: 'join-us',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'join-page',
+            path: 'join-page',
+            component: () => import('../pages/frontpage/FrontPage.vue'),
+          },
+          {
+            name: 'edit-join-page',
+            path: 'edit-join-page/:id',
+            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+          },
+        ],
+      },
+      {
+        name: 'contact-us',
+        path: 'contact-us',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'contact-page',
+            path: 'contact-page',
+            component: () => import('../pages/frontpage/FrontPage.vue'),
+          },
+          {
+            name: 'edit-contact-page',
+            path: 'edit-contact-page/:id',
+            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+          },
+        ],
+      },
+
+      // {
+      //   name: 'faq',
+      //   path: '/faq',
+      //   component: () => import('../pages/faq/FaqPage.vue'),
+      // },
     ],
   },
   {

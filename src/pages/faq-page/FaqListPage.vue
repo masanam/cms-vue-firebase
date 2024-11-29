@@ -10,7 +10,7 @@
             </template>
           </VaInput>
         </div>
-        <router-link :to="{name: 'add-job-list'}" class="btn btn-primary">
+        <router-link :to="{name: 'add-testimony'}" class="btn btn-primary">
         <VaButton class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 p-2">Add Data</VaButton>
         </router-link>
       </div>
@@ -21,16 +21,10 @@
             Id
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Title
+            Question
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Location
-        </th>
-        <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Button
-        </th>
-        <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Published
+            Answer
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
             Action        
@@ -38,26 +32,19 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="hover:bg-slate-50" tr v-for="item in jobs" :key="item.id">
+      <tr class="hover:bg-slate-50" tr v-for="item in faqs" :key="item.id">
         <td class="p-4 border-b border-slate-200">
           {{ item.id }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.title }}
+          {{ item.question }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.subTitle }}
-        </td>
-        <td class="p-4 border-b border-slate-200">
-          {{ item.button }}
-        </td>
-
-        <td class="p-4 border-b border-slate-200">
-          {{ item.published.toDate().toDateString() }}
+          {{ item.answer }}
         </td>
         <td class="p-4 border-b border-slate-200">
           <div class="flex gap-2 justify-end">
-            <router-link :to="{name: 'edit-job-list', params: { id: item.id }}" class="btn btn-primary">
+            <router-link :to="{name: 'edit-testimony', params: { id: item.id }}" class="btn btn-primary">
               <VaButton
                 preset="primary"
                 size="medium"
@@ -116,37 +103,34 @@ import { deleteDoc, query, collection, getDocs, DocumentData, orderBy, Timestamp
 import { auth, db } from '../../firebase/firebase';
 import { useModal, useToast } from 'vuestic-ui'
 
-interface jobs {
+interface faqs {
     id: number,
-    subTitle: string,
-    title: string,
-    button: string,
-    published: Timestamp,
-    content: string
+    question: string,
+    answer: string,
 }
 
 export default defineComponent({
   data() {
     return {
-      jobs: [] as jobs[]
+      faqs: [] as faqs[]
     };
   },
   created() {
-    this.getLatestNews();
+    this.getFaqs();
   },
   methods: {
-    async getLatestNews(): Promise<void> {
-      const collectionRef = collection(db, 'jobs');
+    async getFaqs(): Promise<void> {
+      const collectionRef = collection(db, 'faqs');
       const querySnap = await getDocs(query(collectionRef, orderBy('id','desc')));
 
       querySnap.forEach((doc: DocumentData) => {
-        this.jobs.push(doc.data() as jobs);
+        this.faqs.push(doc.data() as faqs);
       });
     },
 
     async deleteData(id: string): Promise<void> {
         const { init: notify } = useToast();
-        await deleteDoc(doc(db, "jobs", id));
+        await deleteDoc(doc(db, "faqs", id));
         notify({
           message: `data has been deleted`,
           color: 'success',

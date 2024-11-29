@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white border border-4 rounded-lg shadow relative m-4">
-    <table class="text-left table-auto border-collapse">
+    <table class="w-full text-left table-auto border-collapse">
       <caption class="caption-top p-4 border-b">
         <div class="flex flex-col md:flex-row gap-2 mb-2 justify-between">
         <div class="flex flex-col md:flex-row gap-2 justify-start">
@@ -10,9 +10,7 @@
             </template>
           </VaInput>
         </div>
-        <router-link :to="{name: 'add-latest-news'}" class="btn btn-primary">
-          <VaButton class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 p-2">Add Data</VaButton>
-        </router-link>
+        <!-- <VaButton class="p-2">Add Data</VaButton> -->
       </div>
   </caption>
     <thead>
@@ -21,22 +19,10 @@
             Id
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Category
-        </th>
-        <th class="p-4 border-b border-slate-300 bg-slate-50">
             Title
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Content
-        </th>
-        <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Image
-        </th>
-        <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Author
-        </th>
-        <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Published
+            SubTitle
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
             Action        
@@ -44,31 +30,19 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="hover:bg-slate-50" tr v-for="item in latestNews" :key="item.id">
+      <tr class="hover:bg-slate-50" tr v-for="item in ecosystem" :key="item.id">
         <td class="p-4 border-b border-slate-200">
           {{ item.id }}
-        </td>
-        <td class="p-4 border-b border-slate-200">
-          {{ item.category }}
         </td>
         <td class="p-4 border-b border-slate-200">
           {{ item.title }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.content }}
-        </td>
-        <td class="p-4 border-b border-slate-200">
-          {{ item.image }}
-        </td>
-        <td class="p-4 border-b border-slate-200">
-          {{ item.author }}
-        </td>
-        <td class="p-4 border-b border-slate-200">
-          {{ item.published.toDate().toDateString() }}
+          {{ item.subTitle }}
         </td>
         <td class="p-4 border-b border-slate-200">
           <div class="flex gap-2 justify-end">
-            <router-link :to="{name: 'edit-latest-news', params: { id: item.id }}" class="btn btn-primary">
+            <router-link :to="{name: 'edit-ecosystem', params: { id: item.id }}" class="btn btn-primary">
               <VaButton
                 preset="primary"
                 size="medium"
@@ -76,16 +50,9 @@
                 aria-label="Edit data"
               />
             </router-link>
-            <VaButton
-              preset="primary"
-              size="medium"
-              icon="mso-delete"
-              color="danger"
-              aria-label="Delete data"
-              @click="deleteData(item.id.toString())"
-            />
       </div>
         </td>
+
       </tr>
     </tbody>
   </table>
@@ -123,9 +90,38 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { deleteDoc, query, collection, getDocs, DocumentData, orderBy, Timestamp, doc, updateDoc, deleteField } from "firebase/firestore";
+import { query, collection, getDocs, DocumentData, orderBy } from "firebase/firestore";
 import { auth, db } from '../../firebase/firebase';
-import { useModal, useToast } from 'vuestic-ui'
+
+interface Frontpage {
+    id: number,
+    image: string,
+    title: string,
+    subTitle: string,
+    content: string,
+    placeholder: string,
+    button: string
+}
+
+interface globalList {
+    id: number,
+    icon: string,
+    title: string,
+    number: string
+}
+
+interface companyValue {
+    id: number,
+    icon: string,
+    title: string,
+    subTitle: string
+}
+
+interface ecosystem {
+    id: number,
+    title: string,
+    subTitle: string
+}
 
 interface latestNews {
     id: number,
@@ -133,39 +129,72 @@ interface latestNews {
     category: string,
     title: string,
     author: string,
-    published: Timestamp,
+    published: string,
     content: string
 }
 
 export default defineComponent({
   data() {
     return {
+      frontPageList: [] as Frontpage[],
+      globalList: [] as globalList[],
+      companyValues: [] as companyValue[],
+      ecosystem: [] as ecosystem[],
       latestNews: [] as latestNews[]
     };
   },
   created() {
+    this.getFrontPage();
+    this.getGlobalList();
+    this.getCompanyValue();
+    this.getEcoSystem();
     this.getLatestNews();
   },
   methods: {
+    frontPage(id = 0){
+      return this.frontPageList[id] || {}
+    },
+    async getFrontPage(): Promise<void> {
+      const collectionRef = collection(db, 'frontpages');
+      const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
+
+      querySnap.forEach((doc: DocumentData) => {
+        this.frontPageList.push(doc.data() as Frontpage);
+      });
+      // console.log(this.frontPageList);
+    },
+    async getGlobalList(): Promise<void> {
+      const collectionRef = collection(db, 'globallists');
+      const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
+
+      querySnap.forEach((doc: DocumentData) => {
+        this.globalList.push(doc.data() as globalList);
+      });
+    },
+    async getCompanyValue(): Promise<void> {
+      const collectionRef = collection(db, 'companyValues');
+      const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
+
+      querySnap.forEach((doc: DocumentData) => {
+        this.companyValues.push(doc.data() as companyValue);
+      });
+    },
+    async getEcoSystem(): Promise<void> {
+      const collectionRef = collection(db, 'ecosystem');
+      const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
+
+      querySnap.forEach((doc: DocumentData) => {
+        this.ecosystem.push(doc.data() as ecosystem);
+      });
+    },
     async getLatestNews(): Promise<void> {
       const collectionRef = collection(db, 'latestNews');
-      const querySnap = await getDocs(query(collectionRef, orderBy('id','desc')));
+      const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
 
       querySnap.forEach((doc: DocumentData) => {
         this.latestNews.push(doc.data() as latestNews);
       });
-    },
-
-    async deleteData(id: string): Promise<void> {
-        const { init: notify } = useToast();
-        await deleteDoc(doc(db, "latestNews", id));
-        notify({
-          message: `data has been deleted`,
-          color: 'success',
-        });
-        setTimeout(() => location.reload(), 1000);
-        
-      }
+    }
   }
   
 });
