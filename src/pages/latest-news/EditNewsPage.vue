@@ -1,15 +1,26 @@
+<script setup lang="ts">
+import { AdvancedImage } from '@cloudinary/vue';
+import useCloudinary from '../../services/useCloudinary';
+const cloudinary = useCloudinary();
+</script>
+
+
 <script lang="ts">
 import { defineComponent } from 'vue';
-import {  db } from '../../firebase/firebase';
 import { useRoute } from 'vue-router';
-import { serverTimestamp, FieldValue, increment, Timestamp, doc, setDoc, addDoc, collection, updateDoc, getDoc, getDocs, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
+import { ref } from 'firebase/storage';
+import { uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { db, storage } from '../../firebase/firebase'; // Adjust the import according to your project structure
+import FileUploader from '../../components/FileUploader.vue';
 
 export default defineComponent({
   name: 'EditBoard',
-  data () {
-    const route = useRoute()
+  data() {
+    const route = useRoute();
     return {
-      key: route.params.id,
+      key: route.params.id as string,
+      file: null as File | null,
       board: {
         image: "",
         title: "",
@@ -18,49 +29,84 @@ export default defineComponent({
         author: "",
         published: "",
       },
-    }
+    };
   },
-  created () {
+  created() {
     this.getLatestNews();
-  },  
+  },
   methods: {
+    handleFileChange(e: Event) {
+      const target = e.target as HTMLInputElement;
+      if (target.files) {
+        this.file = target.files[0];
+      }
+    },
+
+    uploadFile(file: File) {
+      const { name, type } = file;
+      const storageRef = ref(storage, 'images/' + name);
+      const uploadTask = uploadBytesResumable(storageRef, this.file as File, {
+        contentType: type
+      });
+
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            const data = {
+              url: downloadURL
+            };
+            // this.createProduct(data);
+          });
+        }
+      );
+    },
+
     async getLatestNews(): Promise<void> {
-      const id = this.key.toString()
-      const docRef = doc(db, "latestNews",id );
+      const id = this.key.toString();
+      const docRef = doc(db, "latestNews", id);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         this.board = {
-          image: docSnap.data().image,
-          title: docSnap.data().title,
-          category: docSnap.data().category,
-          content: docSnap.data().content,
-          published: docSnap.data().published.toDate().toDateString(),
-          author: docSnap.data().author,
+          image: docSnap.data()?.image || "",
+          title: docSnap.data()?.title || "",
+          category: docSnap.data()?.category || "",
+          content: docSnap.data()?.content || "",
+          published: docSnap.data()?.published.toDate().toDateString() || "",
+          author: docSnap.data()?.author || "",
         };
-        // console.log(this.board);
       } else {
         console.log('Document does not exist');
       }
     },
-    async onSubmit (evt: { preventDefault: () => void; }) {
-      evt.preventDefault()
-      // console.log("submit")
-      const id = this.key.toString()
-      this.$router.push({ name: 'latest-news' })
+
+    async onSubmit(evt: Event) {
+      if (this.file) {
+        this.uploadFile(this.file);
+        return;
+      }
+      evt.preventDefault();
+      const id = this.key.toString();
+      this.$router.push({ name: 'latest-news' });
       await updateDoc(doc(db, 'latestNews', id), {
-          image: this.board.image,
-          title: this.board.title,
-          category: this.board.category,
-          content: this.board.content,
-          // published: serverTimestamp(),
-          author: this.board.author,
-
-      })
+        image: this.board.image,
+        title: this.board.title,
+        category: this.board.category,
+        content: this.board.content,
+        author: this.board.author,
+      });
     },
-    onCancel() {
-      this.$router.push({ name: 'latest-news' })
-    }
 
+    onCancel() {
+      this.$router.push({ name: 'latest-news' });
+    }
   }
 });
 </script>
@@ -90,24 +136,10 @@ export default defineComponent({
               </div>
               <div class="col-span-full">
                 <label for="image" class="text-sm font-medium text-gray-900 block mb-2">Image</label>
-                  <input type="text" name="image" id="image" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.image" >
+                <img :src="`${board.image}`"  class="p-2 h-15 w-auto" alt="Mirai Logo" />
+                <input type="text" name="image" id="image" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.image" >
               </div>
-              <VaFileUpload
-                  type="single"
-                  hide-file-list
-                  class="self-stretch justify-start items-center gap-4 inline-flex"
-                >
-                  <UserAvatar size="large" />
-                  <VaButton preset="primary" class="p-2" size="small">Add image</VaButton>
-                  <VaButton
-                    preset="primary"
-                    color="danger"
-                    size="small"
-                    icon="delete"
-                    class="z-10"
-                  />
-                </VaFileUpload>
-
+              <!-- <AdvancedImage :cld-img="cloudinary.createImageInstance(`${board.image}`)" :plugins="cloudinary.plugins" /> -->
               <div class="col-span-full">
                 <label for="button" class="text-sm font-medium text-gray-900 block mb-2">Author</label>
                   <input type="text" name="button" id="button" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.author" >

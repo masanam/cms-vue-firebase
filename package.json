@@ -21,6 +21,8 @@
     ]
   },
   "dependencies": {
+    "@cloudinary/url-gen": "^1.21.0",
+    "@cloudinary/vue": "^1.13.0",
     "@gtm-support/vue-gtm": "^2.0.0",
     "@vuestic/compiler": "latest",
     "@vuestic/tailwind": "^0.1.3",

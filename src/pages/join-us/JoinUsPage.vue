@@ -42,7 +42,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="hover:bg-slate-50" tr v-for="item in aboutPageList" :key="item.id">
+      <tr class="hover:bg-slate-50" tr v-for="item in joinPageList" :key="item.id">
         <td class="p-4 border-b border-slate-200">
           {{ item.id }}
         </td>
@@ -68,7 +68,7 @@
 
         <td class="p-4 border-b border-slate-200">
           <div class="flex gap-2 justify-end">
-            <router-link :to="{name: 'edit-about-page', params: { id: item.id }}" class="btn btn-primary">
+            <router-link :to="{name: 'edit-join-page', params: { id: item.id }}" class="btn btn-primary">
               <VaButton
                 preset="primary"
                 size="medium"
@@ -126,7 +126,17 @@ import { defineComponent } from 'vue';
 import { query, collection, getDocs, DocumentData, orderBy } from "firebase/firestore";
 import {  db } from '../../firebase/firebase';
 
-interface aboutPage {
+interface JoinPage {
+    id : number,
+    image: string,
+    title: string,
+    subTitle: string,
+    content: string,
+    placeholder: string,
+    button: string,
+    }
+
+interface Job {
     id: number,
     image: string,
     title: string,
@@ -136,89 +146,38 @@ interface aboutPage {
     button: string,
 }
 
-interface ourMission {
-    id: number,
-    image: string,
-    title: string,
-    subTitle: string,
-    subTitle2: string
-}
-
-interface companyOverview {
-    id: number,
-    country: string,
-    startDate: string,
-    revenue: string,
-    director: string,
-    address: string,
-    address2: string,
-    phone: string,
-    business: string,
-}
-
-interface ourCommitment {
-    id: number,
-    image: string,
-    title: string,
-    subTitle: string,
-    subTitle2: string,
-    subTitle3: string,
-    subTitle4: string,
-  }
-
-
 export default defineComponent({
   data() {
     return {
-      aboutPageList: [] as aboutPage[],
-      ourMission: [] as ourMission[],
-      companyOverview: [] as companyOverview[],
-      ourCommitment: [] as ourCommitment[]
+      joinPageList: [] as JoinPage[],
+      jobs: [] as Job[]
     };
   },
   created() {
-    this.getAboutPage();
-    this.getOurMission();
-    this.getCompanyOverview();
-    this.getOurCommitment();
+    this.getJoinPage();
+    this.getJob();
   },
   methods: {
-    aboutPage(id = 0){
-      return this.aboutPageList[id] || {}
+    joinPage(id = 0){
+      return this.joinPageList[id] || {}
     },
-    async getAboutPage(): Promise<void> {
-      const collectionRef = collection(db, 'aboutPages');
+    async getJoinPage(): Promise<void> {
+      const collectionRef = collection(db, 'joinPages');
       const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
 
       querySnap.forEach((doc: DocumentData) => {
-        this.aboutPageList.push(doc.data() as aboutPage);
+        this.joinPageList.push(doc.data() as JoinPage);
       });
-      console.log(this.aboutPageList);
+      // console.log(this.frontPageList);
     },
-    async getOurMission(): Promise<void> {
-      const collectionRef = collection(db, 'ourMissions');
+    async getJob(): Promise<void> {
+      const collectionRef = collection(db, 'jobs');
       const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
 
       querySnap.forEach((doc: DocumentData) => {
-        this.ourMission.push(doc.data() as ourMission);
+        this.jobs.push(doc.data() as Job);
       });
     },
-    async getCompanyOverview(): Promise<void> {
-      const collectionRef = collection(db, 'companyOverviews');
-      const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
-
-      querySnap.forEach((doc: DocumentData) => {
-        this.companyOverview.push(doc.data() as companyOverview);
-      });
-    },
-    async getOurCommitment(): Promise<void> {
-      const collectionRef = collection(db, 'ourCommitments');
-      const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
-
-      querySnap.forEach((doc: DocumentData) => {
-        this.ourCommitment.push(doc.data() as ourCommitment);
-      });
-    }
   }
   
 });

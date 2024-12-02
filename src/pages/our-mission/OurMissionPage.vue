@@ -31,18 +31,12 @@
             Image
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Placeholder
-        </th>
-        <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Button
-        </th>
-        <th class="p-4 border-b border-slate-300 bg-slate-50">
             Action        
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr class="hover:bg-slate-50" tr v-for="item in aboutPageList" :key="item.id">
+      <tr class="hover:bg-slate-50" tr v-for="item in ourMission" :key="item.id">
         <td class="p-4 border-b border-slate-200">
           {{ item.id }}
         </td>
@@ -53,22 +47,14 @@
           {{ item.subTitle }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.content }}
+          {{ item.subTitle2 }}
         </td>
         <td class="p-4 border-b border-slate-200">
           {{ item.image }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.placeholder }}
-        </td>
-        <td class="p-4 border-b border-slate-200">
-          {{ item.button }}
-        </td>
-
-
-        <td class="p-4 border-b border-slate-200">
           <div class="flex gap-2 justify-end">
-            <router-link :to="{name: 'edit-about-page', params: { id: item.id }}" class="btn btn-primary">
+            <router-link :to="{name: 'edit-our-mission', params: { id: item.id }}" class="btn btn-primary">
               <VaButton
                 preset="primary"
                 size="medium"
@@ -187,7 +173,7 @@ export default defineComponent({
       return this.aboutPageList[id] || {}
     },
     async getAboutPage(): Promise<void> {
-      const collectionRef = collection(db, 'aboutPages');
+      const collectionRef = collection(db, 'ourMissions');
       const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
 
       querySnap.forEach((doc: DocumentData) => {

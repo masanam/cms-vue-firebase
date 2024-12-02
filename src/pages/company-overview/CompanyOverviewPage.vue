@@ -19,56 +19,68 @@
             Id
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Title
+            Country
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            SubTitle
+            Start Date
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Content
+            Revenue
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Image
+            Director
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Placeholder
+            Address
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Button
+            Address 2
         </th>
+        <th class="p-4 border-b border-slate-300 bg-slate-50">
+            Phone
+        </th>
+        <th class="p-4 border-b border-slate-300 bg-slate-50">
+            Bussines
+        </th>
+
         <th class="p-4 border-b border-slate-300 bg-slate-50">
             Action        
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr class="hover:bg-slate-50" tr v-for="item in aboutPageList" :key="item.id">
+      <tr class="hover:bg-slate-50" tr v-for="item in companyOverview" :key="item.id">
         <td class="p-4 border-b border-slate-200">
           {{ item.id }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.title }}
+          {{ item.country }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.subTitle }}
+          {{ item.startDate }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.content }}
+          {{ item.revenue }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.image }}
+          {{ item.director }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.placeholder }}
+          {{ item.address }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.button }}
+          {{ item.address2 }}
         </td>
-
+        <td class="p-4 border-b border-slate-200">
+          {{ item.phone }}
+        </td>
+        <td class="p-4 border-b border-slate-200">
+          {{ item.business }}
+        </td>
 
         <td class="p-4 border-b border-slate-200">
           <div class="flex gap-2 justify-end">
-            <router-link :to="{name: 'edit-about-page', params: { id: item.id }}" class="btn btn-primary">
+            <router-link :to="{name: 'edit-company-overview', params: { id: item.id }}" class="btn btn-primary">
               <VaButton
                 preset="primary"
                 size="medium"

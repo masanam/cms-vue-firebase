@@ -13,11 +13,8 @@ export default defineComponent({
     return {
       key: route.params.id,
       board: {
-        image: "",
-        title: "",
-        comment: "",
-        name: "",
-        published: "",
+        question: "",
+        answer: "",
       },
     }
   },
@@ -27,15 +24,12 @@ export default defineComponent({
   methods: {
     async getLatestNews(): Promise<void> {
       const id = this.key.toString()
-      const docRef = doc(db, "testimonies",id );
+      const docRef = doc(db, "faqs",id );
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         this.board = {
-          image: docSnap.data().image,
-          title: docSnap.data().title,
-          comment: docSnap.data().comment,
-          name: docSnap.data().name,
-          published: docSnap.data().published.toDate().toDateString(),
+          question: docSnap.data().question,
+          answer: docSnap.data().answer,
         };
         // console.log(this.board);
       } else {
@@ -46,18 +40,14 @@ export default defineComponent({
       evt.preventDefault()
       // console.log("submit")
       const id = this.key.toString()
-      this.$router.push({ name: 'testimony' })
-      await updateDoc(doc(db, 'testimonies', id), {
-          image: this.board.image,
-          title: this.board.title,
-          comment: this.board.comment,
-          name: this.board.name,
-          // published: serverTimestamp(),
-
+      this.$router.push({ name: 'faq-page' })
+      await updateDoc(doc(db, 'faqs', id), {
+          question: this.board.question,
+          answer: this.board.answer,
       })
     },
     onCancel() {
-      this.$router.push({ name: 'testimony' })
+      this.$router.push({ name: 'faq-page' })
     }
 
   }
@@ -76,41 +66,12 @@ export default defineComponent({
   <div class="p-6 space-y-6">
           <div class="grid grid-cols-6 gap-6">
               <div class="col-span-full">
-                  <label for="title" class="text-sm font-medium text-gray-900 block mb-2">Title</label>
-                  <input type="text" name="title" id="title" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.title">
+                  <label for="question" class="text-sm font-medium text-gray-900 block mb-2">Question</label>
+                  <input type="text" name="question" id="question" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.question">
               </div>
               <div class="col-span-full">
-                  <label for="comment" class="text-sm font-medium text-gray-900 block mb-2">Comment</label>
-                  <textarea id="comment" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.comment">{{board.comment}}</textarea>
-              </div>
-              <div class="col-span-full">
-                  <label for="name" class="text-sm font-medium text-gray-900 block mb-2">Name</label>
-                  <input type="text" name="name" id="name" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.name">
-              </div>
-
-              <div class="col-span-full">
-                <label for="image" class="text-sm font-medium text-gray-900 block mb-2">Image</label>
-                  <input type="text" name="image" id="image" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.image" >
-              </div>
-              <VaFileUpload
-                  type="single"
-                  hide-file-list
-                  class="self-stretch justify-start items-center gap-4 inline-flex"
-                >
-                  <UserAvatar size="large" />
-                  <VaButton preset="primary" class="p-2" size="small">Add image</VaButton>
-                  <VaButton
-                    preset="primary"
-                    color="danger"
-                    size="small"
-                    icon="delete"
-                    class="z-10"
-                  />
-                </VaFileUpload>
-
-              <div class="col-span-full">
-                <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Published</label>
-                <input type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.published">
+                  <label for="answer" class="text-sm font-medium text-gray-900 block mb-2">Answer</label>
+                  <textarea id="answer" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.answer">{{board.answer}}</textarea>
               </div>
           </div>
   </div>

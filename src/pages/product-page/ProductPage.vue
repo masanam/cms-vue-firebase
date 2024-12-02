@@ -37,12 +37,21 @@
             Button
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
+            Button
+        </th>
+        <th class="p-4 border-b border-slate-300 bg-slate-50">
+            Link
+        </th>
+        <th class="p-4 border-b border-slate-300 bg-slate-50">
+            Link
+        </th>
+        <th class="p-4 border-b border-slate-300 bg-slate-50">
             Action        
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr class="hover:bg-slate-50" tr v-for="item in aboutPageList" :key="item.id">
+      <tr class="hover:bg-slate-50" tr v-for="item in productPageList" :key="item.id">
         <td class="p-4 border-b border-slate-200">
           {{ item.id }}
         </td>
@@ -64,11 +73,19 @@
         <td class="p-4 border-b border-slate-200">
           {{ item.button }}
         </td>
-
+        <td class="p-4 border-b border-slate-200">
+          {{ item.button_2 }}
+        </td>
+        <td class="p-4 border-b border-slate-200">
+          {{ item.link }}
+        </td>
+        <td class="p-4 border-b border-slate-200">
+          {{ item.link_2 }}
+        </td>
 
         <td class="p-4 border-b border-slate-200">
           <div class="flex gap-2 justify-end">
-            <router-link :to="{name: 'edit-about-page', params: { id: item.id }}" class="btn btn-primary">
+            <router-link :to="{name: 'edit-product-page', params: { id: item.id }}" class="btn btn-primary">
               <VaButton
                 preset="primary"
                 size="medium"
@@ -126,99 +143,60 @@ import { defineComponent } from 'vue';
 import { query, collection, getDocs, DocumentData, orderBy } from "firebase/firestore";
 import {  db } from '../../firebase/firebase';
 
-interface aboutPage {
-    id: number,
-    image: string,
-    title: string,
+interface ProductPage {
+    id : number,
+    image : string,
+    title : string,
     subTitle: string,
     content: string,
     placeholder: string,
     button: string,
-}
+    button_2: string,
+    link: string,
+    link_2: string
+    }
 
-interface ourMission {
+interface Product {
     id: number,
     image: string,
     title: string,
+    price: string,
     subTitle: string,
-    subTitle2: string
+    button: string
 }
-
-interface companyOverview {
-    id: number,
-    country: string,
-    startDate: string,
-    revenue: string,
-    director: string,
-    address: string,
-    address2: string,
-    phone: string,
-    business: string,
-}
-
-interface ourCommitment {
-    id: number,
-    image: string,
-    title: string,
-    subTitle: string,
-    subTitle2: string,
-    subTitle3: string,
-    subTitle4: string,
-  }
-
 
 export default defineComponent({
   data() {
     return {
-      aboutPageList: [] as aboutPage[],
-      ourMission: [] as ourMission[],
-      companyOverview: [] as companyOverview[],
-      ourCommitment: [] as ourCommitment[]
+      productPageList: [] as ProductPage[],
+      products: [] as Product[]
     };
   },
   created() {
-    this.getAboutPage();
-    this.getOurMission();
-    this.getCompanyOverview();
-    this.getOurCommitment();
+    this.getProductPage();
+    this.getProduct();
   },
   methods: {
-    aboutPage(id = 0){
-      return this.aboutPageList[id] || {}
+    productPage(id = 0){
+      return this.productPageList[id] || {}
     },
-    async getAboutPage(): Promise<void> {
-      const collectionRef = collection(db, 'aboutPages');
+    async getProductPage(): Promise<void> {
+      const collectionRef = collection(db, 'productPages');
       const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
 
       querySnap.forEach((doc: DocumentData) => {
-        this.aboutPageList.push(doc.data() as aboutPage);
+        this.productPageList.push(doc.data() as ProductPage);
       });
-      console.log(this.aboutPageList);
+      // console.log(this.frontPageList);
     },
-    async getOurMission(): Promise<void> {
-      const collectionRef = collection(db, 'ourMissions');
+    async getProduct(): Promise<void> {
+      const collectionRef = collection(db, 'products');
       const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
 
       querySnap.forEach((doc: DocumentData) => {
-        this.ourMission.push(doc.data() as ourMission);
+        this.products.push(doc.data() as Product);
       });
     },
-    async getCompanyOverview(): Promise<void> {
-      const collectionRef = collection(db, 'companyOverviews');
-      const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
-
-      querySnap.forEach((doc: DocumentData) => {
-        this.companyOverview.push(doc.data() as companyOverview);
-      });
-    },
-    async getOurCommitment(): Promise<void> {
-      const collectionRef = collection(db, 'ourCommitments');
-      const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
-
-      querySnap.forEach((doc: DocumentData) => {
-        this.ourCommitment.push(doc.data() as ourCommitment);
-      });
-    }
   }
   
 });

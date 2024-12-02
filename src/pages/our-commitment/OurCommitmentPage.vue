@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white border border-4 rounded-lg shadow relative m-4">
-    <table class="text-left table-auto border-collapse">
+    <table class="text-left table-auto border-collapse align-top">
       <caption class="caption-top p-4 border-b">
         <div class="flex flex-col md:flex-row gap-2 mb-2 justify-between">
         <div class="flex flex-col md:flex-row gap-2 justify-start">
@@ -22,19 +22,19 @@
             Title
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            SubTitle
-        </th>
-        <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Content
-        </th>
-        <th class="p-4 border-b border-slate-300 bg-slate-50">
             Image
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Placeholder
+            SubTitle
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Button
+          SubTitle2
+        </th>
+        <th class="p-4 border-b border-slate-300 bg-slate-50">
+          SubTitle3
+        </th>
+        <th class="p-4 border-b border-slate-300 bg-slate-50">
+          SubTitle4
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
             Action        
@@ -42,33 +42,31 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="hover:bg-slate-50" tr v-for="item in aboutPageList" :key="item.id">
-        <td class="p-4 border-b border-slate-200">
+      <tr class="hover:bg-slate-50" tr v-for="item in ourCommitment" :key="item.id">
+        <td class="align-top p-4 border-b border-slate-200">
           {{ item.id }}
         </td>
-        <td class="p-4 border-b border-slate-200">
+        <td class="align-top p-4 border-b border-slate-200">
           {{ item.title }}
         </td>
-        <td class="p-4 border-b border-slate-200">
-          {{ item.subTitle }}
-        </td>
-        <td class="p-4 border-b border-slate-200">
-          {{ item.content }}
-        </td>
-        <td class="p-4 border-b border-slate-200">
+        <td class="align-top p-4 border-b border-slate-200">
           {{ item.image }}
         </td>
-        <td class="p-4 border-b border-slate-200">
-          {{ item.placeholder }}
+        <td class="align-top p-4 border-b border-slate-200">
+          {{ item.subTitle }}
         </td>
-        <td class="p-4 border-b border-slate-200">
-          {{ item.button }}
+        <td class="align-top p-4 border-b border-slate-200">
+          {{ item.subTitle2 }}
         </td>
-
-
-        <td class="p-4 border-b border-slate-200">
+        <td class="align-top p-4 border-b border-slate-200">
+          {{ item.subTitle3 }}
+        </td>
+        <td class="align-top p-4 border-b border-slate-200">
+          {{ item.subTitle4 }}
+        </td>
+        <td class="align-top p-4 border-b border-slate-200">
           <div class="flex gap-2 justify-end">
-            <router-link :to="{name: 'edit-about-page', params: { id: item.id }}" class="btn btn-primary">
+            <router-link :to="{name: 'edit-our-commitment', params: { id: item.id }}" class="btn btn-primary">
               <VaButton
                 preset="primary"
                 size="medium"

@@ -17,16 +17,19 @@ export default defineComponent({
         content: "",
         placeholder: "",
         button: "",
+        button2:"",
+        link: "",
+        link2:"",
       },
     }
   },
   created () {
-    this.getAboutPage();
+    this.getProductPage();
   },  
   methods: {
-    async getAboutPage(): Promise<void> {
+    async getProductPage(): Promise<void> {
       const id = this.key.toString()
-      const docRef = doc(db, "aboutPages",id );
+      const docRef = doc(db, "productPages",id );
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         this.board = {
@@ -36,6 +39,10 @@ export default defineComponent({
           content: docSnap.data().content,
           placeholder: docSnap.data().placeholder,
           button: docSnap.data().button,
+          button2: docSnap.data().button2,
+          link: docSnap.data().link,
+          link2: docSnap.data().link2,
+
         };
         // console.log(this.board);
       } else {
@@ -46,8 +53,8 @@ export default defineComponent({
       evt.preventDefault()
       // console.log("submit")
       const id = this.key.toString()
-      this.$router.push({ name: 'about-page' })
-      await updateDoc(doc(db, 'aboutPages', id), {
+      this.$router.push({ name: 'product-page' })
+      await updateDoc(doc(db, 'productPages', id), {
           image: this.board.image,
           title: this.board.title,
           subTitle: this.board.subTitle,
@@ -58,7 +65,7 @@ export default defineComponent({
       })
     },
     onCancel() {
-      this.$router.push({ name: 'about-page' })
+      this.$router.push({ name: 'product-page' })
     }
 
   }
@@ -112,6 +119,19 @@ export default defineComponent({
                 <label for="button" class="text-sm font-medium text-gray-900 block mb-2">Button</label>
                   <input type="text" name="button" id="button" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.button" >
               </div>
+              <div class="col-span-full">
+                <label for="button2" class="text-sm font-medium text-gray-900 block mb-2">Button2</label>
+                  <input type="text" name="button2" id="button2" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.button2" >
+              </div>
+              <div class="col-span-full">
+                <label for="link" class="text-sm font-medium text-gray-900 block mb-2">Link</label>
+                  <input type="text" name="link" id="link" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.link" >
+              </div>
+              <div class="col-span-full">
+                <label for="link2" class="text-sm font-medium text-gray-900 block mb-2">Link2</label>
+                  <input type="text" name="link2" id="link2" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.link2" >
+              </div>
+
               <div class="col-span-full">
                 <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Placeholder</label>
                 <input type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.placeholder">
