@@ -1,6 +1,6 @@
 <template>
   <h1 class="page-title">Preferences</h1>
-  <div class="flex flex-col p-4 space-y-10 bg-backgroundSecondary rounded-lg">
+  <!-- <div class="flex flex-col p-4 space-y-10 bg-backgroundSecondary rounded-lg">
     <div class="flex space-x-5">
       <PreferencesHeader />
     </div>
@@ -9,7 +9,7 @@
     </div>
   </div>
   <EditNameModal v-if="isEditNameModalOpen" @cancel="isEditNameModalOpen = false" />
-  <ResetPasswordModal v-if="isResetPasswordModalOpen" @cancel="isResetPasswordModalOpen = false" />
+  <ResetPasswordModal v-if="isResetPasswordModalOpen" @cancel="isResetPasswordModalOpen = false" /> -->
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
