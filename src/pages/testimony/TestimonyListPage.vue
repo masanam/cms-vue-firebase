@@ -71,13 +71,19 @@
               />
             </router-link>
             <VaButton
-              preset="primary"
-              size="medium"
-              icon="mso-delete"
-              color="danger"
-              aria-label="Delete data"
-              @click="deleteData(item.id.toString())"
-            />
+                  preset="primary"
+                  size="medium"
+                  icon="mso-delete"
+                  color="danger"
+                  aria-label="Delete data"
+                  @click="showConfirmDeleteModal()"
+                />
+              <confirm-delete
+                v-show="isConfirmDeleteModalVisible"
+                modalHeadline="Delete data?"
+                @deleteRecordEvent="deleteData(item.id.toString())"
+                @close="closeConfirmDeleteModal"
+              ></confirm-delete>      
       </div>
         </td>
       </tr>
@@ -120,6 +126,7 @@ import { defineComponent } from 'vue';
 import { deleteDoc, query, collection, getDocs, DocumentData, orderBy, Timestamp, doc, updateDoc, deleteField } from "firebase/firestore";
 import { auth, db } from '../../firebase/firebase';
 import { useModal, useToast } from 'vuestic-ui'
+import ConfirmDelete from '../../components/ConfirmDelete.vue'
 
 interface testimonies {
     id: number,
@@ -131,15 +138,24 @@ interface testimonies {
 }
 
 export default defineComponent({
+  components: { ConfirmDelete },
   data() {
     return {
-      testimonies: [] as testimonies[]
+      testimonies: [] as testimonies[],
+      isConfirmDeleteModalVisible: false,
     };
   },
   created() {
     this.getTestimonies();
   },
   methods: {
+    showConfirmDeleteModal() {
+      this.isConfirmDeleteModalVisible = true;
+    },
+    closeConfirmDeleteModal() {
+      this.isConfirmDeleteModalVisible = false;
+    },
+
     async getTestimonies(): Promise<void> {
       const collectionRef = collection(db, 'testimonies');
       const querySnap = await getDocs(query(collectionRef, orderBy('id','desc')));

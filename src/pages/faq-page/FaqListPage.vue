@@ -52,15 +52,21 @@
                 aria-label="Edit data"
               />
             </router-link>
-            <VaButton
-              preset="primary"
-              size="medium"
-              icon="mso-delete"
-              color="danger"
-              aria-label="Delete data"
-              @click="deleteData(item.id.toString())"
-            />
-      </div>
+              <VaButton
+                  preset="primary"
+                  size="medium"
+                  icon="mso-delete"
+                  color="danger"
+                  aria-label="Delete data"
+                  @click="showConfirmDeleteModal()"
+                />
+              <confirm-delete
+                v-show="isConfirmDeleteModalVisible"
+                modalHeadline="Delete data?"
+                @deleteRecordEvent="deleteData(item.id.toString())"
+                @close="closeConfirmDeleteModal"
+              ></confirm-delete>      
+        </div>
         </td>
       </tr>
     </tbody>
@@ -98,10 +104,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { deleteDoc, query, collection, getDocs, DocumentData, orderBy, Timestamp, doc, updateDoc, deleteField } from "firebase/firestore";
 import { auth, db } from '../../firebase/firebase';
 import { useModal, useToast } from 'vuestic-ui'
+import ConfirmDelete from '../../components/ConfirmDelete.vue'
 
 interface faqs {
     id: number,
@@ -110,15 +117,23 @@ interface faqs {
 }
 
 export default defineComponent({
+  components: { ConfirmDelete },
   data() {
-    return {
-      faqs: [] as faqs[]
+      return {
+      faqs: [] as faqs[],
+      isConfirmDeleteModalVisible: false,
     };
   },
   created() {
     this.getFaqs();
   },
   methods: {
+    showConfirmDeleteModal() {
+      this.isConfirmDeleteModalVisible = true;
+    },
+    closeConfirmDeleteModal() {
+      this.isConfirmDeleteModalVisible = false;
+    },
     async getFaqs(): Promise<void> {
       const collectionRef = collection(db, 'faqs');
       const querySnap = await getDocs(query(collectionRef, orderBy('id','desc')));

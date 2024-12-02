@@ -49,9 +49,11 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } f
 import { auth, db } from '../../../../firebase/firebase';
 import { useRouter } from 'vue-router'
 import { useForm, useToast } from 'vuestic-ui'
+import { useStorage } from "vue3-storage";
 
 const { push } = useRouter()
 const { init } = useToast()
+const storage = useStorage();
 
 const { colors, setHSLAColor } = useColors()
 const hoverColor = computed(() => setHSLAColor(colors.focus, { a: 0.1 }))
@@ -121,6 +123,7 @@ const resolveLinkAttribute = (item: ProfileListItem) => {
 
 const UserLogout = () => {
       signOut(auth)
+      storage.removeStorageSync("user")
       init({ message: "You've logout", color: 'success' })
       push({ name: 'login' })
 

@@ -14,6 +14,7 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+import Vue3Storage, { StorageType } from "vue3-storage";
 
 const vuetify = createVuetify({
   components,
@@ -26,6 +27,7 @@ app.use(stores)
 app.use(router)
 app.use(i18n)
 app.use(createVuestic({ config: vuesticGlobalConfig }))
+app.use(Vue3Storage, { namespace: "pro_", storage: StorageType.Local })
 app.use(vuetify)
 
 if (import.meta.env.VITE_APP_GTM_ENABLED) {

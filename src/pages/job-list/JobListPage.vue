@@ -66,15 +66,21 @@
               />
             </router-link>
             <VaButton
-              preset="primary"
-              size="medium"
-              icon="mso-delete"
-              color="danger"
-              aria-label="Delete data"
-              @click="deleteData(item.id.toString())"
-            />
-      </div>
-        </td>
+                  preset="primary"
+                  size="medium"
+                  icon="mso-delete"
+                  color="danger"
+                  aria-label="Delete data"
+                  @click="showConfirmDeleteModal()"
+                />
+              <confirm-delete
+                v-show="isConfirmDeleteModalVisible"
+                modalHeadline="Delete data?"
+                @deleteRecordEvent="deleteData(item.id.toString())"
+                @close="closeConfirmDeleteModal"
+              ></confirm-delete>      
+            </div>
+          </td>
       </tr>
     </tbody>
   </table>
@@ -115,6 +121,7 @@ import { defineComponent } from 'vue';
 import { deleteDoc, query, collection, getDocs, DocumentData, orderBy, Timestamp, doc, updateDoc, deleteField } from "firebase/firestore";
 import { auth, db } from '../../firebase/firebase';
 import { useModal, useToast } from 'vuestic-ui'
+import ConfirmDelete from '../../components/ConfirmDelete.vue'
 
 interface jobs {
     id: number,
@@ -126,15 +133,23 @@ interface jobs {
 }
 
 export default defineComponent({
+  components: { ConfirmDelete },
   data() {
     return {
-      jobs: [] as jobs[]
+      jobs: [] as jobs[],
+      isConfirmDeleteModalVisible: false,
     };
   },
   created() {
     this.getLatestNews();
   },
   methods: {
+    showConfirmDeleteModal() {
+      this.isConfirmDeleteModalVisible = true;
+    },
+    closeConfirmDeleteModal() {
+      this.isConfirmDeleteModalVisible = false;
+    },
     async getLatestNews(): Promise<void> {
       const collectionRef = collection(db, 'jobs');
       const querySnap = await getDocs(query(collectionRef, orderBy('id','desc')));
@@ -146,9 +161,9 @@ export default defineComponent({
 
     async deleteData(id: string): Promise<void> {
         const { init: notify } = useToast();
-        await deleteDoc(doc(db, "jobs", id));
+        // await deleteDoc(doc(db, "jobs", id));
         notify({
-          message: `data has been deleted`,
+          message: `data has been deleted `+id,
           color: 'success',
         });
         setTimeout(() => location.reload(), 1000);

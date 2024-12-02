@@ -26,10 +26,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     component: AppLayout,
     redirect: { name: 'dashboard' },
-    // beforeEnter: authGuard,
-    // meta: {
-    //   requiresAuth: true,
-    // },
+    beforeEnter: authGuard,
+    meta: {
+      requiresAuth: true,
+    },
       children: [
       {
         name: 'dashboard',
