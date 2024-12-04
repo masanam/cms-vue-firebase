@@ -109,14 +109,16 @@ export default defineComponent({
               </div>
               <div class="col-span-full">
                   <label for="content" class="text-sm font-medium text-gray-900 block mb-2">Content</label>
-                  <editor
+                  <textarea id="content" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.content">{{board.content}}</textarea>
+
+                  <!-- <editor
                   :init="{
                     height: 300,
                     plugins: 'lists link image table code help wordcount',
                   }"
                     :api-key="apiKey"
                     v-model="board.content"
-                  />
+                  /> -->
               </div>
               <div class="col-span-full">
                 <label for="image" class="text-sm font-medium text-gray-900 block mb-2">Image</label>
