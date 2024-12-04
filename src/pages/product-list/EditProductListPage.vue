@@ -92,24 +92,10 @@ export default defineComponent({
 
               <div class="col-span-full">
                 <label for="image" class="text-sm font-medium text-gray-900 block mb-2">Image</label>
-                  <input type="text" name="image" id="image" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.image" >
+                <img :src="`${board.image}`"  class="p-2 h-15 w-auto" alt="Mirai Logo" />
+                <input type="text" name="image" id="image" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.image" >
               </div>
-              <VaFileUpload
-                  type="single"
-                  hide-file-list
-                  class="self-stretch justify-start items-center gap-4 inline-flex"
-                >
-                  <UserAvatar size="large" />
-                  <VaButton preset="primary" class="p-2" size="small">Add image</VaButton>
-                  <VaButton
-                    preset="primary"
-                    color="danger"
-                    size="small"
-                    icon="delete"
-                    class="z-10"
-                  />
-                </VaFileUpload>
-
+              <!-- <AdvancedImage :cld-img="cloudinary.createImageInstance(`${board.image}`)" :plugins="cloudinary.plugins" /> -->
               <div class="col-span-full">
                 <label for="button" class="text-sm font-medium text-gray-900 block mb-2">Button</label>
                   <input type="text" name="button" id="button" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.button" >

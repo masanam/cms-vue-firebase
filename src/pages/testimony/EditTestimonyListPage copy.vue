@@ -3,47 +3,51 @@ import { defineComponent } from 'vue';
 import {  db } from '../../firebase/firebase';
 import { useRoute } from 'vue-router';
 import { serverTimestamp, FieldValue, increment, Timestamp, doc, setDoc, addDoc, collection, updateDoc, getDoc, getDocs, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
-import { useModal, useToast } from 'vuestic-ui'
+import { SubTitle } from 'chart.js';
 import { comment } from 'postcss';
 
 export default defineComponent({
-  name: 'AddBoard',
+  name: 'EditBoard',
   data () {
+    const route = useRoute()
     return {
+      key: route.params.id,
       board: {
-        id:"",
         question: "",
         answer: "",
       },
     }
   },
   created () {
+    this.getLatestNews();
   },  
   methods: {
+    async getLatestNews(): Promise<void> {
+      const id = this.key.toString()
+      const docRef = doc(db, "faqs",id );
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        this.board = {
+          question: docSnap.data().question,
+          answer: docSnap.data().answer,
+        };
+        // console.log(this.board);
+      } else {
+        console.log('Document does not exist');
+      }
+    },
     async onSubmit (evt: { preventDefault: () => void; }) {
       evt.preventDefault()
-      console.log("submit")
-      const { init: notify } = useToast()
-      const collectionRef = collection(db, 'faqs');
-      const snapshot = await getCountFromServer(collectionRef);
-      console.log('count: ', snapshot.data().count);
-      const newInc = snapshot.data().count + 1;
-
-      await setDoc(doc(db, 'faqs', newInc.toString()), {
-          id: newInc.toString(),
-          image: this.board.question,
-          title: this.board.answer,
+      // console.log("submit")
+      const id = this.key.toString()
+      this.$router.push({ name: 'testimony' })
+      await updateDoc(doc(db, 'faqs', id), {
+          question: this.board.question,
+          answer: this.board.answer,
       })
-
-      notify({
-        message: `data has been created`,
-        color: 'success',
-      })
-
-      this.$router.push({ name: 'faq-page' })
     },
     onCancel() {
-      this.$router.push({ name: 'faq-page' })
+      this.$router.push({ name: 'testimony' })
     }
 
   }
@@ -54,7 +58,7 @@ export default defineComponent({
   
   <div class="flex items-start justify-between p-5 border-b rounded-t">
       <h3 class="text-xl font-semibold">
-          Add data
+          Edit data
       </h3>
   </div>
   <form @submit.prevent="onSubmit">
@@ -62,7 +66,7 @@ export default defineComponent({
   <div class="p-6 space-y-6">
           <div class="grid grid-cols-6 gap-6">
               <div class="col-span-full">
-                <label for="question" class="text-sm font-medium text-gray-900 block mb-2">Question</label>
+                  <label for="question" class="text-sm font-medium text-gray-900 block mb-2">Question</label>
                   <input type="text" name="question" id="question" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.question">
               </div>
               <div class="col-span-full">

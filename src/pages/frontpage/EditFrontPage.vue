@@ -1,14 +1,19 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { ref, defineComponent } from 'vue';
 import {  db } from '../../firebase/firebase';
 import { useRoute } from 'vue-router';
 import { doc, updateDoc, getDoc } from "firebase/firestore";
+import Editor from '@tinymce/tinymce-vue';
 
 export default defineComponent({
   name: 'EditBoard',
+  components: {'editor': Editor },
   data () {
     const route = useRoute()
     return {
+      apiKey : import.meta.env.VITE_TINYMCE_API_KEY,
+      content : ref('Hello <strong>world</strong>'),
+      dynamicTabs: [1, 2, 3],
       key: route.params.id,
       board: {
         image: "",
@@ -74,19 +79,44 @@ export default defineComponent({
   </div>
   <form @submit.prevent="onSubmit">
 
-  <div class="p-6 space-y-6">
+    <div class="p-6 space-y-6">
           <div class="grid grid-cols-6 gap-6">
             <div class="col-span-full">
               <label for="title" class="text-sm font-medium text-gray-900 block mb-2">Title</label>
-                  <input type="text" name="title" id="title" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.title">
+              <input type="text" name="image" id="image" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.title" >
+                  <!-- <editor
+                  :init="{
+                    height: 200,
+                    plugins: 'lists link image table code help wordcount',
+                  }"
+                    :api-key="apiKey"
+                    v-model="board.title"
+                  /> -->
               </div>
               <div class="col-span-full">
                 <label for="subtitle" class="text-sm font-medium text-gray-900 block mb-2">SubTitle</label>
-                  <input type="text" name="subtitle" id="subtitle" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.subTitle">
+                <input type="text" name="image" id="image" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.subTitle" >
+
+                <!-- <editor
+                  :init="{
+                    height: 300,
+                    plugins: 'lists link image table code help wordcount',
+                  }"
+                    :api-key="apiKey"
+                    v-model="board.subTitle"
+                  /> -->
+
               </div>
               <div class="col-span-full">
                   <label for="content" class="text-sm font-medium text-gray-900 block mb-2">Content</label>
-                  <textarea id="content" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.content">{{board.content}}</textarea>
+                  <editor
+                  :init="{
+                    height: 300,
+                    plugins: 'lists link image table code help wordcount',
+                  }"
+                    :api-key="apiKey"
+                    v-model="board.content"
+                  />
               </div>
               <div class="col-span-full">
                 <label for="image" class="text-sm font-medium text-gray-900 block mb-2">Image</label>
@@ -117,7 +147,7 @@ export default defineComponent({
                 <input type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.placeholder">
               </div>
           </div>
-  </div>
+        </div>
   
     <div class="p-6 flex items-center justify-end gap-x-6 border-t border-gray-200 rounded-b">
       <button type="button" @click="onCancel" class="text-sm/6 font-semibold text-gray-900">Cancel</button>

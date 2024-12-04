@@ -7,7 +7,7 @@ export const authGuard: NavigationGuard = async (to, from, next) => {
 
   // Check if the user is authenticated
   const authStore = useUserStore();
-  console.log(authStore.userState)
+  // console.log(authStore.userState)
   if (authStore.userState) {
     next();
   } else {

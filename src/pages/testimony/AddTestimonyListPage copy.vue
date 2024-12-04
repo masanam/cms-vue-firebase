@@ -40,10 +40,10 @@ export default defineComponent({
         color: 'success',
       })
 
-      this.$router.push({ name: 'faq-page' })
+      this.$router.push({ name: 'testimony' })
     },
     onCancel() {
-      this.$router.push({ name: 'faq-page' })
+      this.$router.push({ name: 'testimony' })
     }
 
   }

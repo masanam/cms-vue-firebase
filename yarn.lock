@@ -1056,6 +1056,39 @@
     "@babel/helper-validator-identifier" "^7.24.7"
     to-fast-properties "^2.0.0"
 
+"@cloudinary/html@^1.13.1":
+  version "1.13.1"
+  resolved "https://registry.npmjs.org/@cloudinary/html/-/html-1.13.1.tgz"
+  integrity sha512-DPCyfHnl3eoIH52zprJGJFMb6pQNw/8bXzcpvhnYBUrAr+vS71vjWLd2aojvq1WI2ylfGK/L41y6+0YRrSo3/A==
+  dependencies:
+    "@types/lodash.clonedeep" "^4.5.6"
+    "@types/lodash.debounce" "^4.0.6"
+    "@types/node" "^14.14.10"
+    lodash.clonedeep "^4.5.0"
+    lodash.debounce "^4.0.8"
+    typescript "^4.1.2"
+
+"@cloudinary/transformation-builder-sdk@^1.15.1":
+  version "1.16.1"
+  resolved "https://registry.npmjs.org/@cloudinary/transformation-builder-sdk/-/transformation-builder-sdk-1.16.1.tgz"
+  integrity sha512-Mh1qYMkoDxSAzbt0qY9NJaZrdH/vFBcrpeVWmbTXbPVDZHLaaLyJ2+RDFGger5lycbrehPLoNp2hh22BvhkvbQ==
+  dependencies:
+    "@cloudinary/url-gen" "^1.7.0"
+
+"@cloudinary/url-gen@^1.21.0", "@cloudinary/url-gen@^1.7.0":
+  version "1.21.0"
+  resolved "https://registry.npmjs.org/@cloudinary/url-gen/-/url-gen-1.21.0.tgz"
+  integrity sha512-ctYcCzX3G3vcgnESTU2ET3K1XsBiXcEnBddCGV0QbR3fJhLLrIShjSMEwZoepgh4LAFOHJu9DzvLFr+E8R7c7g==
+  dependencies:
+    "@cloudinary/transformation-builder-sdk" "^1.15.1"
+
+"@cloudinary/vue@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.npmjs.org/@cloudinary/vue/-/vue-1.13.0.tgz"
+  integrity sha512-Zje7XNoAb+YX1cXY1rtV+cACy9QaSsZjs08Z5qgN5LiChl9khZgohz5qU9bBww3fp8fkvAJQXkY2lcLgNy2hnw==
+  dependencies:
+    "@cloudinary/html" "^1.13.1"
+
 "@colors/colors@1.5.0":
   version "1.5.0"
   resolved "https://registry.npmjs.org/@colors/colors/-/colors-1.5.0.tgz"
@@ -2898,6 +2931,11 @@
   resolved "https://registry.npmjs.org/@testing-library/user-event/-/user-event-14.5.1.tgz"
   integrity sha512-UCcUKrUYGj7ClomOo2SpNVvx4/fkd/2BbIHDCle8A0ax+P3bU7yJwDBDrS6ZwdTMARWTGODX1hEsCcO+7beJjg==
 
+"@tinymce/tinymce-vue@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.npmjs.org/@tinymce/tinymce-vue/-/tinymce-vue-6.1.0.tgz"
+  integrity sha512-7JdaKMOaohuFWpjKwRmaZJbT/eNVUUYHG93R7+lUf7SUN+hSqd2spbuqZcki+tG9kaSAGd2ZmvJIsmzWDNAzpw==
+
 "@types/aria-query@^5.0.1":
   version "5.0.4"
   resolved "https://registry.npmjs.org/@types/aria-query/-/aria-query-5.0.4.tgz"
@@ -3068,7 +3106,21 @@
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.15.tgz"
   integrity sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==
 
-"@types/lodash@^4.14.161", "@types/lodash@^4.14.167":
+"@types/lodash.clonedeep@^4.5.6":
+  version "4.5.9"
+  resolved "https://registry.npmjs.org/@types/lodash.clonedeep/-/lodash.clonedeep-4.5.9.tgz"
+  integrity sha512-19429mWC+FyaAhOLzsS8kZUsI+/GmBAQ0HFiCPsKGU+7pBXOQWhyrY6xNNDwUSX8SMZMJvuFVMF9O5dQOlQK9Q==
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash.debounce@^4.0.6":
+  version "4.0.9"
+  resolved "https://registry.npmjs.org/@types/lodash.debounce/-/lodash.debounce-4.0.9.tgz"
+  integrity sha512-Ma5JcgTREwpLRwMM+XwBR7DaWe96nC38uCBDFKZWbNKD+osjVzdpnUSwBcqCptrp16sSOLBAUb50Car5I0TCsQ==
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash@*", "@types/lodash@^4.14.161", "@types/lodash@^4.14.167":
   version "4.14.201"
   resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.201.tgz"
   integrity sha512-y9euML0cim1JrykNxADLfaG0FgD1g/yTHwUs/Jg9ZIU7WKj2/4IW9Lbb1WZbvck78W/lfGXFfe+u2EGfIJXdLQ==
@@ -3107,6 +3159,11 @@
   integrity sha512-nekiGu2NDb1BcVofVcEKMIwzlx4NjHlcjhoxxKBNLtz15Y1z7MYf549DFvkHSId02Ax6kGwWntIBPC3l/JZcmw==
   dependencies:
     undici-types "~5.26.4"
+
+"@types/node@^14.14.10":
+  version "14.18.63"
+  resolved "https://registry.npmjs.org/@types/node/-/node-14.18.63.tgz"
+  integrity sha512-fAtCfv4jJg+ExtXhvCkCqUKZ+4ok/JQk01qDKhL5BDDoS3AxKXhV5/MAVUZyQnSEd2GT92fkgZl0pz0Q0AzcIQ==
 
 "@types/node@^18.0.0":
   version "18.18.9"
@@ -4454,12 +4511,24 @@ core-js-compat@^3.31.0, core-js-compat@^3.33.1:
   dependencies:
     browserslist "^4.22.1"
 
+core-js@^3.6.5:
+  version "3.39.0"
+  resolved "https://registry.npmjs.org/core-js/-/core-js-3.39.0.tgz"
+  integrity sha512-raM0ew0/jJUqkJ0E6e8UDtl+y/7ktFivgWvqw8dNSQeNWoSDLvQ1H/RN3aPXB9tBd4/FhyR4RDPGhsNIMsAn7g==
+
 core-util-is@~1.0.0:
   version "1.0.3"
   resolved "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.3.tgz"
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
 
-cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
+cross-env@^7.0.3:
+  version "7.0.3"
+  resolved "https://registry.npmjs.org/cross-env/-/cross-env-7.0.3.tgz"
+  integrity sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==
+  dependencies:
+    cross-spawn "^7.0.1"
+
+cross-spawn@^7.0.0, cross-spawn@^7.0.1, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.3"
   resolved "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.3.tgz"
   integrity sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==
@@ -6533,6 +6602,11 @@ lodash.camelcase@^4.3.0:
   version "4.3.0"
   resolved "https://registry.npmjs.org/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz"
   integrity sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==
+
+lodash.clonedeep@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.npmjs.org/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz"
+  integrity sha512-H5ZhCF25riFd9uB5UCkVKo61m3S/xZk1x4wA6yp/L3RFP6Z/eHH1ymQcGLo7J3GMPfm0V/7m1tryHuGVxpqEBQ==
 
 lodash.debounce@^4.0.8:
   version "4.0.8"
@@ -8822,6 +8896,11 @@ typedarray@^0.0.6:
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
+typescript@^4.1.2:
+  version "4.9.5"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-4.9.5.tgz"
+  integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
+
 typescript@^5.2.2:
   version "5.2.2"
   resolved "https://registry.npmjs.org/typescript/-/typescript-5.2.2.tgz"
@@ -9037,6 +9116,11 @@ vue-chartjs@^5.3.0:
   resolved "https://registry.npmjs.org/vue-chartjs/-/vue-chartjs-5.3.0.tgz"
   integrity sha512-8XqX0JU8vFZ+WA2/knz4z3ThClduni2Nm0BMe2u0mXgTfd9pXrmJ07QBI+WAij5P/aPmPMX54HCE1seWL37ZdQ==
 
+vue-class-component@^8.0.0-0:
+  version "8.0.0-rc.1"
+  resolved "https://registry.npmjs.org/vue-class-component/-/vue-class-component-8.0.0-rc.1.tgz"
+  integrity sha512-w1nMzsT/UdbDAXKqhwTmSoyuJzUXKrxLE77PCFVuC6syr8acdFDAq116xgvZh9UCuV0h+rlCtxXolr3Hi3HyPQ==
+
 vue-component-type-helpers@latest:
   version "1.8.22"
   resolved "https://registry.npmjs.org/vue-component-type-helpers/-/vue-component-type-helpers-1.8.22.tgz"
@@ -9096,7 +9180,7 @@ vue-media-upload@^2.2.4:
   resolved "https://registry.npmjs.org/vue-media-upload/-/vue-media-upload-2.2.4.tgz"
   integrity sha512-UkVCvsrMC/ByNMuTl0CwhTCAeUskaqIK9awM6zAuvYRbmxvdus7aw3+mfVw0HGaV945ERw9hxe2++K4CRk8fcQ==
 
-vue-router@^4.2.5, "vue-router@>= 4.1.0 < 5.0.0":
+vue-router@^4.0.0-0, vue-router@^4.2.5, "vue-router@>= 4.1.0 < 5.0.0":
   version "4.2.5"
   resolved "https://registry.npmjs.org/vue-router/-/vue-router-4.2.5.tgz"
   integrity sha512-DIUpKcyg4+PTQKfFPX88UWhlagBEBEfJ5A8XDXRJLUnZOvcpMF8o/dnL90vpVkGaPbjvXazV/rC1qBKrZlFugw==
@@ -9112,7 +9196,7 @@ vue-tsc@^2.1.6:
     "@vue/language-core" "2.1.6"
     semver "^7.5.4"
 
-vue@3.5.8:
+vue@^3.0.0, vue@3.5.8:
   version "3.5.8"
   resolved "https://registry.npmjs.org/vue/-/vue-3.5.8.tgz"
   integrity sha512-hvuvuCy51nP/1fSRvrrIqTLSvrSyz2Pq+KQ8S8SXCxTWVE0nMaOnSDnSOxV1eYmGfvK7mqiwvd1C59CEEz7dAQ==
@@ -9122,6 +9206,17 @@ vue@3.5.8:
     "@vue/runtime-dom" "3.5.8"
     "@vue/server-renderer" "3.5.8"
     "@vue/shared" "3.5.8"
+
+vue3-storage@^0.1.11:
+  version "0.1.11"
+  resolved "https://registry.npmjs.org/vue3-storage/-/vue3-storage-0.1.11.tgz"
+  integrity sha512-4pLQUMeGFduP2IaFage8Y/9AtUljKkm3z9N4ko30kTcKDwyr7JXOAsNFjYqw58SWNNLQdXqaGGAxZFVnk/JfUg==
+  dependencies:
+    core-js "^3.6.5"
+    cross-env "^7.0.3"
+    vue "^3.0.0"
+    vue-class-component "^8.0.0-0"
+    vue-router "^4.0.0-0"
 
 vuefire@^3.2.0:
   version "3.2.0"

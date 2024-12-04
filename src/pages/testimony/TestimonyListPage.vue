@@ -10,7 +10,7 @@
             </template>
           </VaInput>
         </div>
-        <router-link :to="{name: 'add-faq-page'}" class="btn btn-primary">
+        <router-link :to="{name: 'add-testimony'}" class="btn btn-primary">
         <VaButton class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 p-2">Add Data</VaButton>
         </router-link>
       </div>
@@ -62,7 +62,7 @@
         </td>
         <td class="p-4 border-b border-slate-200">
           <div class="flex gap-2 justify-end">
-            <router-link :to="{name: 'edit-faq-page', params: { id: item.id }}" class="btn btn-primary">
+            <router-link :to="{name: 'edit-testimony', params: { id: item.id }}" class="btn btn-primary">
               <VaButton
                 preset="primary"
                 size="medium"
