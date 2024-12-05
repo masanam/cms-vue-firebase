@@ -2,9 +2,7 @@
 import { defineComponent } from 'vue';
 import {  db } from '../../firebase/firebase';
 import { useRoute } from 'vue-router';
-import { serverTimestamp, FieldValue, increment, Timestamp, doc, setDoc, addDoc, collection, updateDoc, getDoc, getDocs, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
-import { SubTitle } from 'chart.js';
-import { comment } from 'postcss';
+import { doc, updateDoc, getDoc } from "firebase/firestore";
 
 export default defineComponent({
   name: 'EditBoard',
@@ -13,23 +11,25 @@ export default defineComponent({
     return {
       key: route.params.id,
       board: {
-        question: "",
-        answer: "",
+        image: "",
+        title: "",
+        subTitle: "",
       },
     }
   },
   created () {
-    this.getLatestNews();
+    this.getAboutPage();
   },  
   methods: {
-    async getLatestNews(): Promise<void> {
+    async getAboutPage(): Promise<void> {
       const id = this.key.toString()
-      const docRef = doc(db, "faqs",id );
+      const docRef = doc(db, "achievements",id );
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         this.board = {
-          question: docSnap.data().question,
-          answer: docSnap.data().answer,
+          image: docSnap.data().image,
+          title: docSnap.data().title,
+          subTitle: docSnap.data().subTitle,
         };
         // console.log(this.board);
       } else {
@@ -40,14 +40,15 @@ export default defineComponent({
       evt.preventDefault()
       // console.log("submit")
       const id = this.key.toString()
-      this.$router.push({ name: 'testimony' })
-      await updateDoc(doc(db, 'faqs', id), {
-          question: this.board.question,
-          answer: this.board.answer,
+      this.$router.push({ name: 'achievement' })
+      await updateDoc(doc(db, 'achievements', id), {
+          image: this.board.image,
+          title: this.board.title,
+          subTitle: this.board.subTitle,
       })
     },
     onCancel() {
-      this.$router.push({ name: 'testimony' })
+      this.$router.push({ name: 'achievement' })
     }
 
   }
@@ -65,14 +66,15 @@ export default defineComponent({
 
   <div class="p-6 space-y-6">
           <div class="grid grid-cols-6 gap-6">
-              <div class="col-span-full">
-                  <label for="question" class="text-sm font-medium text-gray-900 block mb-2">Question</label>
-                  <input type="text" name="question" id="question" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.question">
+            <div class="col-span-full">
+              <label for="title" class="text-sm font-medium text-gray-900 block mb-2">Title</label>
+                  <input type="text" name="title" id="title" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.title">
               </div>
               <div class="col-span-full">
-                  <label for="answer" class="text-sm font-medium text-gray-900 block mb-2">Answer</label>
-                  <textarea id="answer" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.answer">{{board.answer}}</textarea>
+                <label for="subtitle" class="text-sm font-medium text-gray-900 block mb-2">SubTitle</label>
+                  <input type="text" name="subtitle" id="subtitle" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.subTitle">
               </div>
+              
           </div>
   </div>
   

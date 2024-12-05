@@ -2,8 +2,7 @@
 import { defineComponent } from 'vue';
 import {  db } from '../../firebase/firebase';
 import { useRoute } from 'vue-router';
-import { serverTimestamp, FieldValue, increment, Timestamp, doc, setDoc, addDoc, collection, updateDoc, getDoc, getDocs, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
-import { SubTitle } from 'chart.js';
+import { doc, updateDoc, getDoc } from "firebase/firestore";
 
 export default defineComponent({
   name: 'EditBoard',
@@ -15,27 +14,27 @@ export default defineComponent({
         image: "",
         title: "",
         subTitle: "",
-        price: "",
+        content: "",
+        placeholder: "",
         button: "",
-        published: "",
       },
     }
   },
   created () {
-    this.getLatestNews();
+    this.getAboutPage();
   },  
   methods: {
-    async getLatestNews(): Promise<void> {
+    async getAboutPage(): Promise<void> {
       const id = this.key.toString()
-      const docRef = doc(db, "products",id );
+      const docRef = doc(db, "joinPages",id );
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         this.board = {
           image: docSnap.data().image,
           title: docSnap.data().title,
           subTitle: docSnap.data().subTitle,
-          price: docSnap.data().price,
-          published: docSnap.data().published.toDate().toDateString(),
+          content: docSnap.data().content,
+          placeholder: docSnap.data().placeholder,
           button: docSnap.data().button,
         };
         // console.log(this.board);
@@ -47,19 +46,19 @@ export default defineComponent({
       evt.preventDefault()
       // console.log("submit")
       const id = this.key.toString()
-      this.$router.push({ name: 'product-list' })
-      await updateDoc(doc(db, 'products', id), {
+      this.$router.push({ name: 'join-page' })
+      await updateDoc(doc(db, 'joinPages', id), {
           image: this.board.image,
           title: this.board.title,
           subTitle: this.board.subTitle,
-          price: this.board.price,
-          // published: serverTimestamp(),
+          content: this.board.content,
+          placeholder: this.board.placeholder,
           button: this.board.button,
 
       })
     },
     onCancel() {
-      this.$router.push({ name: 'product-list' })
+      this.$router.push({ name: 'join-page' })
     }
 
   }
@@ -77,32 +76,45 @@ export default defineComponent({
 
   <div class="p-6 space-y-6">
           <div class="grid grid-cols-6 gap-6">
-              <div class="col-span-full">
-                  <label for="title" class="text-sm font-medium text-gray-900 block mb-2">Title</label>
+            <div class="col-span-full">
+              <label for="title" class="text-sm font-medium text-gray-900 block mb-2">Title</label>
                   <input type="text" name="title" id="title" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.title">
               </div>
               <div class="col-span-full">
-                  <label for="subTitle" class="text-sm font-medium text-gray-900 block mb-2">Content</label>
-                  <textarea id="subTitle" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.subTitle">{{board.subTitle}}</textarea>
+                <label for="subtitle" class="text-sm font-medium text-gray-900 block mb-2">SubTitle</label>
+                  <input type="text" name="subtitle" id="subtitle" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.subTitle">
               </div>
               <div class="col-span-full">
-                  <label for="price" class="text-sm font-medium text-gray-900 block mb-2">Price</label>
-                  <input type="text" name="price" id="price" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.price">
+                  <label for="content" class="text-sm font-medium text-gray-900 block mb-2">Content</label>
+                  <textarea id="content" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.content">{{board.content}}</textarea>
               </div>
-
               <div class="col-span-full">
                 <label for="image" class="text-sm font-medium text-gray-900 block mb-2">Image</label>
-                <img :src="`${board.image}`"  class="p-2 h-15 w-auto" alt="Mirai Logo" />
-                <input type="text" name="image" id="image" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.image" >
+                  <input type="text" name="image" id="image" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.image" >
               </div>
-              <!-- <AdvancedImage :cld-img="cloudinary.createImageInstance(`${board.image}`)" :plugins="cloudinary.plugins" /> -->
+              <VaFileUpload
+                  type="single"
+                  hide-file-list
+                  class="self-stretch justify-start items-center gap-4 inline-flex"
+                >
+                  <UserAvatar size="large" />
+                  <VaButton preset="primary" class="p-2" size="small">Add image</VaButton>
+                  <VaButton
+                    preset="primary"
+                    color="danger"
+                    size="small"
+                    icon="delete"
+                    class="z-10"
+                  />
+                </VaFileUpload>
+
               <div class="col-span-full">
                 <label for="button" class="text-sm font-medium text-gray-900 block mb-2">Button</label>
                   <input type="text" name="button" id="button" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.button" >
               </div>
               <div class="col-span-full">
-                <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Published</label>
-                <input type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.published">
+                <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Placeholder</label>
+                <input type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.placeholder">
               </div>
           </div>
   </div>

@@ -1,62 +1,51 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { where, deleteDoc, query, collection, getDocs, DocumentData, orderBy, Timestamp, doc, updateDoc, deleteField } from "firebase/firestore";
-import { auth, db } from '../../firebase/firebase';
-import { useModal, useToast } from 'vuestic-ui'
+import { where, query, collection, getDocs, DocumentData, orderBy } from "firebase/firestore";
+import {  db } from '../../firebase/firebase';
 import TabsComposition from '../../components/TabsComposition.vue';
 import TabComposition from '../../components/TabComposition.vue';
 
-interface testimonies {
+interface ourCommitment {
     id: number,
     image: string,
-    name: string,
     title: string,
-    comment: string,
-    published: Timestamp,
-}
+    subTitle: string,
+    subTitle2: string,
+    subTitle3: string,
+    subTitle4: string,
+  }
 
 export default defineComponent({
   name: 'ListBoard',
   components: { TabsComposition, TabComposition },
   data() {
     return {
-      testimonies: [] as testimonies[],
-      testimoniesID: [] as testimonies[],
-      testimoniesJP: [] as testimonies[]
+      ourCommitment: [] as ourCommitment[],
+      ourCommitmentID: [] as ourCommitment[],
+      ourCommitmentJP: [] as ourCommitment[]
 
     };
   },
   created() {
-    this.getTestimonies();
+    this.getOurCommitment();
   },
   methods: {
-    async getTestimonies(): Promise<void> {
-      const collectionRef = collection(db, 'testimonies');
+    async getOurCommitment(): Promise<void> {
+      const collectionRef = collection(db, 'ourCommitments');
       const querySnap = await getDocs(query(collectionRef, where("lang", "==", "EN"), orderBy('id', 'asc')));
       querySnap.forEach((doc: DocumentData) => {
-        this.testimonies.push(doc.data() as testimonies);
+        this.ourCommitment.push(doc.data() as ourCommitment);
       });
       const querySnapID = await getDocs(query(collectionRef, where("lang", "==", "ID"), orderBy('id', 'asc')));
       querySnapID.forEach((doc: DocumentData) => {
-        this.testimoniesID.push(doc.data() as testimonies);
+        this.ourCommitmentID.push(doc.data() as ourCommitment);
       });
       const querySnapJP = await getDocs(query(collectionRef, where("lang", "==", "JP"), orderBy('id', 'asc')));
       querySnapJP.forEach((doc: DocumentData) => {
-        this.testimoniesJP.push(doc.data() as testimonies);
+        this.ourCommitmentJP.push(doc.data() as ourCommitment);
       });
 
-    },
-
-    async deleteData(id: string): Promise<void> {
-        const { init: notify } = useToast();
-        await deleteDoc(doc(db, "testimonies", id));
-        notify({
-          message: `data has been deleted`,
-          color: 'success',
-        });
-        setTimeout(() => location.reload(), 1000);
-        
-      }
+    }
   }
   
 });
@@ -65,7 +54,7 @@ export default defineComponent({
   <div class="bg-white border border-4 rounded-lg shadow relative m-4">
     <TabsComposition>
       <TabComposition title="English">
-          <table class="w-full text-left table-auto border-collapse">
+        <table class="text-left table-auto border-collapse align-top">
           <caption class="caption-top p-4 border-b">
             <div class="flex flex-col md:flex-row gap-2 mb-2 justify-between">
             <div class="flex flex-col md:flex-row gap-2 justify-start">
@@ -75,9 +64,7 @@ export default defineComponent({
                 </template>
               </VaInput>
             </div>
-            <router-link :to="{name: 'add-testimony'}" class="btn btn-primary">
-            <VaButton class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 p-2">Add Data</VaButton>
-            </router-link>
+            <!-- <VaButton class="p-2">Add Data</VaButton> -->
           </div>
       </caption>
         <thead>
@@ -89,16 +76,19 @@ export default defineComponent({
                 Title
             </th>
             <th class="p-4 border-b border-slate-300 bg-slate-50">
-                Name
-            </th>
-            <th class="p-4 border-b border-slate-300 bg-slate-50">
                 Image
             </th>
             <th class="p-4 border-b border-slate-300 bg-slate-50">
-                Comment
+                SubTitle
             </th>
             <th class="p-4 border-b border-slate-300 bg-slate-50">
-                Published
+              SubTitle2
+            </th>
+            <th class="p-4 border-b border-slate-300 bg-slate-50">
+              SubTitle3
+            </th>
+            <th class="p-4 border-b border-slate-300 bg-slate-50">
+              SubTitle4
             </th>
             <th class="p-4 border-b border-slate-300 bg-slate-50">
                 Action        
@@ -106,7 +96,7 @@ export default defineComponent({
           </tr>
         </thead>
         <tbody>
-          <tr class="hover:bg-slate-50" tr v-for="item in testimonies" :key="item.id">
+          <tr class="hover:bg-slate-50" tr v-for="item in ourCommitment" :key="item.id">
             <td class="align-top p-4 border-b border-slate-200">
               {{ item.id }}
             </td>
@@ -114,20 +104,23 @@ export default defineComponent({
               {{ item.title }}
             </td>
             <td class="align-top p-4 border-b border-slate-200">
-              {{ item.name }}
-            </td>
-            <td class="align-top p-4 border-b border-slate-200">
               {{ item.image }}
             </td>
             <td class="align-top p-4 border-b border-slate-200">
-              {{ item.comment }}
+              {{ item.subTitle }}
             </td>
             <td class="align-top p-4 border-b border-slate-200">
-              {{ item.published.toDate().toDateString() }}
+              {{ item.subTitle2 }}
+            </td>
+            <td class="align-top p-4 border-b border-slate-200">
+              {{ item.subTitle3 }}
+            </td>
+            <td class="align-top p-4 border-b border-slate-200">
+              {{ item.subTitle4 }}
             </td>
             <td class="align-top p-4 border-b border-slate-200">
               <div class="flex gap-2 justify-end">
-                <router-link :to="{name: 'edit-testimony', params: { id: item.id }}" class="btn btn-primary">
+                <router-link :to="{name: 'edit-our-commitment', params: { id: item.id }}" class="btn btn-primary">
                   <VaButton
                     preset="primary"
                     size="medium"
@@ -135,22 +128,22 @@ export default defineComponent({
                     aria-label="Edit data"
                   />
                 </router-link>
-                <VaButton
+                <!-- <VaButton
                   preset="primary"
                   size="medium"
                   icon="mso-delete"
                   color="danger"
                   aria-label="Delete data"
-                  @click="deleteData(item.id.toString())"
-                />
-            </div>
+                  @click=""
+                /> -->
+          </div>
             </td>
           </tr>
         </tbody>
       </table>
       </TabComposition>
       <TabComposition title="Indonesia">
-          <table class="w-full text-left table-auto border-collapse">
+        <table class="text-left table-auto border-collapse align-top">
           <caption class="caption-top p-4 border-b">
             <div class="flex flex-col md:flex-row gap-2 mb-2 justify-between">
             <div class="flex flex-col md:flex-row gap-2 justify-start">
@@ -160,9 +153,7 @@ export default defineComponent({
                 </template>
               </VaInput>
             </div>
-            <router-link :to="{name: 'add-testimony'}" class="btn btn-primary">
-            <VaButton class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 p-2">Add Data</VaButton>
-            </router-link>
+            <!-- <VaButton class="p-2">Add Data</VaButton> -->
           </div>
       </caption>
         <thead>
@@ -174,16 +165,19 @@ export default defineComponent({
                 Title
             </th>
             <th class="p-4 border-b border-slate-300 bg-slate-50">
-                Name
-            </th>
-            <th class="p-4 border-b border-slate-300 bg-slate-50">
                 Image
             </th>
             <th class="p-4 border-b border-slate-300 bg-slate-50">
-                Comment
+                SubTitle
             </th>
             <th class="p-4 border-b border-slate-300 bg-slate-50">
-                Published
+              SubTitle2
+            </th>
+            <th class="p-4 border-b border-slate-300 bg-slate-50">
+              SubTitle3
+            </th>
+            <th class="p-4 border-b border-slate-300 bg-slate-50">
+              SubTitle4
             </th>
             <th class="p-4 border-b border-slate-300 bg-slate-50">
                 Action        
@@ -191,7 +185,7 @@ export default defineComponent({
           </tr>
         </thead>
         <tbody>
-          <tr class="hover:bg-slate-50" tr v-for="item in testimoniesID" :key="item.id">
+          <tr class="hover:bg-slate-50" tr v-for="item in ourCommitmentID" :key="item.id">
             <td class="align-top p-4 border-b border-slate-200">
               {{ item.id }}
             </td>
@@ -199,20 +193,23 @@ export default defineComponent({
               {{ item.title }}
             </td>
             <td class="align-top p-4 border-b border-slate-200">
-              {{ item.name }}
-            </td>
-            <td class="align-top p-4 border-b border-slate-200">
               {{ item.image }}
             </td>
             <td class="align-top p-4 border-b border-slate-200">
-              {{ item.comment }}
+              {{ item.subTitle }}
             </td>
             <td class="align-top p-4 border-b border-slate-200">
-              {{ item.published.toDate().toDateString() }}
+              {{ item.subTitle2 }}
+            </td>
+            <td class="align-top p-4 border-b border-slate-200">
+              {{ item.subTitle3 }}
+            </td>
+            <td class="align-top p-4 border-b border-slate-200">
+              {{ item.subTitle4 }}
             </td>
             <td class="align-top p-4 border-b border-slate-200">
               <div class="flex gap-2 justify-end">
-                <router-link :to="{name: 'edit-testimony', params: { id: item.id }}" class="btn btn-primary">
+                <router-link :to="{name: 'edit-our-commitment', params: { id: item.id }}" class="btn btn-primary">
                   <VaButton
                     preset="primary"
                     size="medium"
@@ -220,22 +217,22 @@ export default defineComponent({
                     aria-label="Edit data"
                   />
                 </router-link>
-                <VaButton
+                <!-- <VaButton
                   preset="primary"
                   size="medium"
                   icon="mso-delete"
                   color="danger"
                   aria-label="Delete data"
-                  @click="deleteData(item.id.toString())"
-                />
-            </div>
+                  @click=""
+                /> -->
+          </div>
             </td>
           </tr>
         </tbody>
       </table>
       </TabComposition>
       <TabComposition title="Japan">
-          <table class="w-full text-left table-auto border-collapse">
+        <table class="text-left table-auto border-collapse align-top">
           <caption class="caption-top p-4 border-b">
             <div class="flex flex-col md:flex-row gap-2 mb-2 justify-between">
             <div class="flex flex-col md:flex-row gap-2 justify-start">
@@ -245,9 +242,7 @@ export default defineComponent({
                 </template>
               </VaInput>
             </div>
-            <router-link :to="{name: 'add-testimony'}" class="btn btn-primary">
-            <VaButton class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 p-2">Add Data</VaButton>
-            </router-link>
+            <!-- <VaButton class="p-2">Add Data</VaButton> -->
           </div>
       </caption>
         <thead>
@@ -259,16 +254,19 @@ export default defineComponent({
                 Title
             </th>
             <th class="p-4 border-b border-slate-300 bg-slate-50">
-                Name
-            </th>
-            <th class="p-4 border-b border-slate-300 bg-slate-50">
                 Image
             </th>
             <th class="p-4 border-b border-slate-300 bg-slate-50">
-                Comment
+                SubTitle
             </th>
             <th class="p-4 border-b border-slate-300 bg-slate-50">
-                Published
+              SubTitle2
+            </th>
+            <th class="p-4 border-b border-slate-300 bg-slate-50">
+              SubTitle3
+            </th>
+            <th class="p-4 border-b border-slate-300 bg-slate-50">
+              SubTitle4
             </th>
             <th class="p-4 border-b border-slate-300 bg-slate-50">
                 Action        
@@ -276,7 +274,7 @@ export default defineComponent({
           </tr>
         </thead>
         <tbody>
-          <tr class="hover:bg-slate-50" tr v-for="item in testimoniesJP" :key="item.id">
+          <tr class="hover:bg-slate-50" tr v-for="item in ourCommitmentJP" :key="item.id">
             <td class="align-top p-4 border-b border-slate-200">
               {{ item.id }}
             </td>
@@ -284,20 +282,23 @@ export default defineComponent({
               {{ item.title }}
             </td>
             <td class="align-top p-4 border-b border-slate-200">
-              {{ item.name }}
-            </td>
-            <td class="align-top p-4 border-b border-slate-200">
               {{ item.image }}
             </td>
             <td class="align-top p-4 border-b border-slate-200">
-              {{ item.comment }}
+              {{ item.subTitle }}
             </td>
             <td class="align-top p-4 border-b border-slate-200">
-              {{ item.published.toDate().toDateString() }}
+              {{ item.subTitle2 }}
+            </td>
+            <td class="align-top p-4 border-b border-slate-200">
+              {{ item.subTitle3 }}
+            </td>
+            <td class="align-top p-4 border-b border-slate-200">
+              {{ item.subTitle4 }}
             </td>
             <td class="align-top p-4 border-b border-slate-200">
               <div class="flex gap-2 justify-end">
-                <router-link :to="{name: 'edit-testimony', params: { id: item.id }}" class="btn btn-primary">
+                <router-link :to="{name: 'edit-our-commitment', params: { id: item.id }}" class="btn btn-primary">
                   <VaButton
                     preset="primary"
                     size="medium"
@@ -305,21 +306,20 @@ export default defineComponent({
                     aria-label="Edit data"
                   />
                 </router-link>
-                <VaButton
+                <!-- <VaButton
                   preset="primary"
                   size="medium"
                   icon="mso-delete"
                   color="danger"
                   aria-label="Delete data"
-                  @click="deleteData(item.id.toString())"
-                />
-            </div>
+                  @click=""
+                /> -->
+          </div>
             </td>
           </tr>
         </tbody>
       </table>
       </TabComposition>
-
     </TabsComposition>
 
     <div class="flex flex-col-reverse md:flex-row gap-2 justify-between items-center p-2">

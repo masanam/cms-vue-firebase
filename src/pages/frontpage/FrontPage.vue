@@ -98,28 +98,28 @@ export default defineComponent({
           </thead>
           <tbody>
             <tr class="hover:bg-slate-50" tr v-for="item in frontPageList" :key="item.id">
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.id }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.title }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.subTitle }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.content }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.image }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.placeholder }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.button }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 <div class="flex gap-2 justify-end">
                   <router-link :to="{name: 'edit-hero-page', params: { id: item.id }}" class="btn btn-primary">
                     <VaButton
@@ -180,28 +180,28 @@ export default defineComponent({
           </thead>
           <tbody>
             <tr class="hover:bg-slate-50" tr v-for="item in frontPageListID" :key="item.id">
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.id }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.title }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.subTitle }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.content }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.image }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.placeholder }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.button }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 <div class="flex gap-2 justify-end">
                   <router-link :to="{name: 'edit-hero-page', params: { id: item.id }}" class="btn btn-primary">
                     <VaButton
@@ -262,28 +262,28 @@ export default defineComponent({
           </thead>
           <tbody>
             <tr class="hover:bg-slate-50" tr v-for="item in frontPageListJP" :key="item.id">
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.id }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.title }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.subTitle }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.content }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.image }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.placeholder }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 {{ item.button }}
               </td>
-              <td class="p-4 border-b border-slate-200">
+              <td class="align-top p-4 border-b border-slate-200">
                 <div class="flex gap-2 justify-end">
                   <router-link :to="{name: 'edit-hero-page', params: { id: item.id }}" class="btn btn-primary">
                     <VaButton

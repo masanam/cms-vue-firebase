@@ -53,6 +53,7 @@ import { useUserStore } from '../../stores/user';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../../firebase/firebase';
+import { useStorage } from "vue3-storage";
 
 const authStore = useUserStore();
 
@@ -61,6 +62,7 @@ const authStore = useUserStore();
 const { validate } = useForm('form')
 const { push } = useRouter()
 const { init } = useToast()
+const storage = useStorage();
 
 const formData = reactive({
   email: '',
@@ -73,7 +75,9 @@ const submit = () => {
     signInWithEmailAndPassword(auth, formData.email, formData.password)
         .then((userCredential) => {
           authStore.setUser(userCredential.user);
-          console.log('Login sukses');
+          storage.setStorageSync("user", userCredential.user);
+          // console.log('Login sukses');
+          // console.log(storage);
           push({ name: 'dashboard' })
         })
         .catch((error) => {

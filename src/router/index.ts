@@ -26,10 +26,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     component: AppLayout,
     redirect: { name: 'dashboard' },
-    // beforeEnter: authGuard,
-    // meta: {
-    //   requiresAuth: true,
-    // },
+    beforeEnter: authGuard,
+    meta: {
+      requiresAuth: true,
+    },
       children: [
       {
         name: 'dashboard',
@@ -206,7 +206,18 @@ const routes: Array<RouteRecordRaw> = [
             name: 'edit-ecosystem',
             path: 'edit-ecosystem/:id',
             component: () => import('../pages/ecosystem/EditEcoSystemPage.vue'),
+          },
+          {
+            name: 'topbar',
+            path: 'topbar',
+            component: () => import('../pages/topbar/TopBarPage.vue'),
+          },
+          {
+            name: 'edit-ecosystem',
+            path: 'edit-ecosystem/:id',
+            component: () => import('../pages/topbar/EditTopBarPage.vue'),
           }
+
         ],
       },
       {
@@ -217,42 +228,42 @@ const routes: Array<RouteRecordRaw> = [
           {
             name: 'about-page',
             path: 'about-page',
-            component: () => import('../pages/frontpage/FrontPage.vue'),
+            component: () => import('../pages/about-us/AboutUsPage.vue'),
           },
           {
             name: 'edit-about-page',
             path: 'edit-about-page/:id',
-            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+            component: () => import('../pages/about-us/EditAboutUsPage.vue'),
           },
           {
             name: 'our-mission',
             path: 'our-mission',
-            component: () => import('../pages/global-list/GlobalListPage.vue'),
+            component: () => import('../pages/our-mission/OurMissionPage.vue'),
           },
           {
             name: 'edit-our-mission',
             path: 'edit-our-mission/:id',
-            component: () => import('../pages/global-list/EditGlobalListPage.vue'),
+            component: () => import('../pages/our-mission/EditOurMissionPage.vue'),
           },
           {
             name: 'company-overview',
             path: 'company-overview',
-            component: () => import('../pages/global-list/GlobalListPage.vue'),
+            component: () => import('../pages/company-overview/CompanyOverviewPage.vue'),
           },
           {
             name: 'edit-company-overview',
             path: 'edit-company-overview/:id',
-            component: () => import('../pages/global-list/EditGlobalListPage.vue'),
+            component: () => import('../pages/company-overview/EditCompanyOverviewPage.vue'),
           },
           {
             name: 'our-commitment',
             path: 'our-commitment',
-            component: () => import('../pages/global-list/GlobalListPage.vue'),
+            component: () => import('../pages/our-commitment/OurCommitmentPage.vue'),
           },
           {
             name: 'edit-our-commitment',
             path: 'edit-our-commitment/:id',
-            component: () => import('../pages/global-list/EditGlobalListPage.vue'),
+            component: () => import('../pages/our-commitment/EditOurCommitmentPage.vue'),
           },
         ],
       },
@@ -264,12 +275,12 @@ const routes: Array<RouteRecordRaw> = [
           {
             name: 'product-page',
             path: 'product-page',
-            component: () => import('../pages/frontpage/FrontPage.vue'),
+            component: () => import('../pages/product-page/ProductPage.vue'),
           },
           {
             name: 'edit-product-page',
             path: 'edit-product-page/:id',
-            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+            component: () => import('../pages/product-page/EditProductPage.vue'),
           },
         ],
       },
@@ -281,52 +292,52 @@ const routes: Array<RouteRecordRaw> = [
           {
             name: 'business-page',
             path: 'business-page',
-            component: () => import('../pages/frontpage/FrontPage.vue'),
+            component: () => import('../pages/business-page/BusinessPage.vue'),
           },
           {
             name: 'edit-business-page',
             path: 'edit-business-page/:id',
-            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+            component: () => import('../pages/business-page/EditBusinessPage.vue'),
           },
           {
             name: 'achievement',
             path: 'achievement',
-            component: () => import('../pages/frontpage/FrontPage.vue'),
+            component: () => import('../pages/achievement/AchievementPage.vue'),
           },
           {
             name: 'edit-achievement',
             path: 'edit-achievement/:id',
-            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+            component: () => import('../pages/achievement/EditAchievementPage.vue'),
           },
           {
             name: 'our-gateway',
             path: 'our-gateway',
-            component: () => import('../pages/frontpage/FrontPage.vue'),
+            component: () => import('../pages/our-gateway/OurGatewayPage.vue'),
           },
           {
             name: 'edit-our-gateway',
             path: 'edit-our-gateway/:id',
-            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+            component: () => import('../pages/our-gateway/EditOurGatewayPage.vue'),
           },
           {
             name: 'our-support',
             path: 'our-support',
-            component: () => import('../pages/frontpage/FrontPage.vue'),
+            component: () => import('../pages/our-support/OurSupportPage.vue'),
           },
           {
             name: 'edit-our-support',
             path: 'edit-our-support/:id',
-            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+            component: () => import('../pages/our-support/EditOurSupportPage.vue'),
           },
           {
             name: 'packages',
             path: 'packages',
-            component: () => import('../pages/frontpage/FrontPage.vue'),
+            component: () => import('../pages/packages/PackagePage.vue'),
           },
           {
             name: 'edit-packages',
             path: 'edit-packages/:id',
-            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+            component: () => import('../pages/packages/EditPackagePage.vue'),
           },
         ],
       },
@@ -338,12 +349,12 @@ const routes: Array<RouteRecordRaw> = [
           {
             name: 'join-page',
             path: 'join-page',
-            component: () => import('../pages/frontpage/FrontPage.vue'),
+            component: () => import('../pages/join-us/JoinUsPage.vue'),
           },
           {
             name: 'edit-join-page',
             path: 'edit-join-page/:id',
-            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+            component: () => import('../pages/join-us/EditJoinUsPage.vue'),
           },
         ],
       },
@@ -355,12 +366,12 @@ const routes: Array<RouteRecordRaw> = [
           {
             name: 'contact-page',
             path: 'contact-page',
-            component: () => import('../pages/frontpage/FrontPage.vue'),
+            component: () => import('../pages/contact-page/ContactPage.vue'),
           },
           {
             name: 'edit-contact-page',
             path: 'edit-contact-page/:id',
-            component: () => import('../pages/frontpage/EditFrontPage.vue'),
+            component: () => import('../pages/contact-page/EditContactPage.vue'),
           },
         ],
       },

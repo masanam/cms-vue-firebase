@@ -100,6 +100,11 @@ export default {
           name: 'ecosystem',
           displayName: 'menu.ecosystem',
         },
+        {
+          name: 'topbar',
+          displayName: 'menu.topbar',
+        },
+
       ],
     },
     {
