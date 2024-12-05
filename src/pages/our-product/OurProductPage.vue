@@ -99,7 +99,7 @@ export default defineComponent({
             </td>
             <td class="p-4 border-b border-slate-200">
               <div class="flex gap-2 justify-end">
-                <router-link :to="{name: 'edit-our-gateway', params: { id: item.id }}" class="btn btn-primary">
+                <router-link :to="{name: 'edit-our-product', params: { id: item.id }}" class="btn btn-primary">
                   <VaButton
                     preset="primary"
                     size="medium"
@@ -170,7 +170,7 @@ export default defineComponent({
             </td>
             <td class="p-4 border-b border-slate-200">
               <div class="flex gap-2 justify-end">
-                <router-link :to="{name: 'edit-our-gateway', params: { id: item.id }}" class="btn btn-primary">
+                <router-link :to="{name: 'edit-our-product', params: { id: item.id }}" class="btn btn-primary">
                   <VaButton
                     preset="primary"
                     size="medium"
@@ -241,7 +241,7 @@ export default defineComponent({
             </td>
             <td class="p-4 border-b border-slate-200">
               <div class="flex gap-2 justify-end">
-                <router-link :to="{name: 'edit-our-gateway', params: { id: item.id }}" class="btn btn-primary">
+                <router-link :to="{name: 'edit-our-product', params: { id: item.id }}" class="btn btn-primary">
                   <VaButton
                     preset="primary"
                     size="medium"

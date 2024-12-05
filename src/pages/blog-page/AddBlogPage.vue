@@ -13,11 +13,13 @@ export default defineComponent({
         id:"",
         image: "",
         title: "",
+        subTitle: "",
         category: "",
         content: "",
         view: "",
         comment: "",
         published: "",
+        lang: "",
       },
     }
   },
@@ -37,6 +39,7 @@ export default defineComponent({
           id: newInc.toString(),
           image: this.board.image,
           title: this.board.title,
+          subTitle: this.board.subTitle,
           category: this.board.category,
           content: this.board.content,
           published: serverTimestamp(),
@@ -113,8 +116,18 @@ export default defineComponent({
               </div>
 
               <div class="col-span-full">
+                <label for="comment" class="text-sm font-medium text-gray-900 block mb-2">Language</label>
+                <select name="comment" id="comment" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.lang">
+                  <option value="EN">English</option>
+                  <option value="ID">Indonesia</option>
+                  <option value="JP">Japan</option>
+                </select>
+              </div>
+
+
+              <div class="col-span-full">
                 <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Published</label>
-                <input type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.published">
+                <input readonly type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.published">
               </div>
           </div>
   </div>

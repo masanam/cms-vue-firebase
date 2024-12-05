@@ -11,6 +11,7 @@ interface blogs {
     image: string,
     category: string,
     title: string,
+    subTitle: string,
     view: string,
     comment: string,
     published: Timestamp,
@@ -93,7 +94,7 @@ export default defineComponent({
                   Title
               </th>
               <th class="p-4 border-b border-slate-300 bg-slate-50">
-                  Content
+                  SubTitle
               </th>
               <th class="p-4 border-b border-slate-300 bg-slate-50">
                   Image
@@ -124,7 +125,7 @@ export default defineComponent({
                 {{ item.title }}
               </td>
               <td class="align-top p-4 border-b border-slate-200">
-                {{ item.content }}
+                {{ item.subTitle }}
               </td>
               <td class="align-top p-4 border-b border-slate-200">
                 {{ item.image }}
@@ -191,7 +192,7 @@ export default defineComponent({
                   Title
               </th>
               <th class="p-4 border-b border-slate-300 bg-slate-50">
-                  Content
+                  SubTitle
               </th>
               <th class="p-4 border-b border-slate-300 bg-slate-50">
                   Image
@@ -222,7 +223,7 @@ export default defineComponent({
                 {{ item.title }}
               </td>
               <td class="align-top p-4 border-b border-slate-200">
-                {{ item.content }}
+                {{ item.subTitle }}
               </td>
               <td class="align-top p-4 border-b border-slate-200">
                 {{ item.image }}
@@ -289,7 +290,7 @@ export default defineComponent({
                   Title
               </th>
               <th class="p-4 border-b border-slate-300 bg-slate-50">
-                  Content
+                  SubTitle
               </th>
               <th class="p-4 border-b border-slate-300 bg-slate-50">
                   Image
@@ -320,7 +321,7 @@ export default defineComponent({
                 {{ item.title }}
               </td>
               <td class="align-top p-4 border-b border-slate-200">
-                {{ item.content }}
+                {{ item.subTitle }}
               </td>
               <td class="align-top p-4 border-b border-slate-200">
                 {{ item.image }}

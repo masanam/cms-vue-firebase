@@ -23,7 +23,7 @@ export default defineComponent({
   methods: {
     async getAboutPage(): Promise<void> {
       const id = this.key.toString()
-      const docRef = doc(db, "ourGateways",id );
+      const docRef = doc(db, "ourProducts",id );
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         this.board = {
@@ -40,15 +40,15 @@ export default defineComponent({
       evt.preventDefault()
       // console.log("submit")
       const id = this.key.toString()
-      this.$router.push({ name: 'our-gateway' })
-      await updateDoc(doc(db, 'ourGateways', id), {
+      this.$router.push({ name: 'our-product' })
+      await updateDoc(doc(db, 'ourProducts', id), {
           image: this.board.image,
           title: this.board.title,
           subTitle: this.board.subTitle,
       })
     },
     onCancel() {
-      this.$router.push({ name: 'our-gateway' })
+      this.$router.push({ name: 'our-product' })
     }
 
   }
