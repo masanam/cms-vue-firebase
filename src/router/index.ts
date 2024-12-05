@@ -310,6 +310,16 @@ const routes: Array<RouteRecordRaw> = [
             component: () => import('../pages/achievement/EditAchievementPage.vue'),
           },
           {
+            name: 'our-product',
+            path: 'our-product',
+            component: () => import('../pages/our-product/OurProductPage.vue'),
+          },
+          {
+            name: 'edit-our-product',
+            path: 'edit-our-product/:id',
+            component: () => import('../pages/our-product/EditOurProductPage.vue'),
+          },
+          {
             name: 'our-gateway',
             path: 'our-gateway',
             component: () => import('../pages/our-gateway/OurGatewayPage.vue'),

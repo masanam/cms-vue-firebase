@@ -162,6 +162,11 @@ export default {
           displayName: 'menu.achievement',
         },
         {
+          name: 'our-product',
+          displayName: 'menu.our-product',
+        },
+
+        {
           name: 'our-gateway',
           displayName: 'menu.our-gateway',
         },
