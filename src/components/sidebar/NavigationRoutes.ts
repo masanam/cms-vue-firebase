@@ -204,6 +204,11 @@ export default {
           name: 'contact-page',
           displayName: 'menu.contact-page',
         },
+        {
+          name: 'contact-data',
+          displayName: 'menu.contact-data',
+        },
+
       ],
     },
 

@@ -383,6 +383,17 @@ const routes: Array<RouteRecordRaw> = [
             path: 'edit-contact-page/:id',
             component: () => import('../pages/contact-page/EditContactPage.vue'),
           },
+          {
+            name: 'contact-data',
+            path: 'contact-data',
+            component: () => import('../pages/contact-data/ContactData.vue'),
+          },
+          {
+            name: 'edit-contact-data',
+            path: 'edit-contact-data/:id',
+            component: () => import('../pages/contact-data/EditContactData.vue'),
+          },
+
         ],
       },
 

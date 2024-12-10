@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white border border-4 rounded-lg shadow relative m-4">
-    <table class="text-left table-auto border-collapse">
+    <table class="w-full text-left table-auto border-collapse">
       <caption class="caption-top p-4 border-b">
         <div class="flex flex-col md:flex-row gap-2 mb-2 justify-between">
         <div class="flex flex-col md:flex-row gap-2 justify-start">
@@ -10,9 +10,6 @@
             </template>
           </VaInput>
         </div>
-        <router-link :to="{name: 'add-office-page'}" class="btn btn-primary">
-          <VaButton class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 p-2">Add Data</VaButton>
-        </router-link>
       </div>
   </caption>
     <thead>
@@ -21,13 +18,13 @@
             Id
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Country
+            Name
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-            Address
+            Email
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
-          Address
+          Message
         </th>
         <th class="p-4 border-b border-slate-300 bg-slate-50">
             Action        
@@ -35,29 +32,29 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="hover:bg-slate-50" tr v-for="item in offices" :key="item.id">
+      <tr class="hover:bg-slate-50" tr v-for="item in contacts" :key="item.id">
         <td class="p-4 border-b border-slate-200">
           {{ item.id }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.country }}
+          {{ item.name }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.address }}
+          {{ item.email }}
         </td>
         <td class="p-4 border-b border-slate-200">
-          {{ item.address2 }}
+          {{ item.message }}
         </td>
         <td class="p-4 border-b border-slate-200">
           <div class="flex gap-2 justify-end">
-            <router-link :to="{name: 'edit-office-page', params: { id: item.id }}" class="btn btn-primary">
+            <!-- <router-link :to="{name: 'edit-office-page', params: { id: item.id }}" class="btn btn-primary">
               <VaButton
                 preset="primary"
                 size="medium"
                 icon="mso-edit"
                 aria-label="Edit data"
               />
-            </router-link>
+            </router-link> -->
             <VaButton
               preset="primary"
               size="medium"
@@ -109,17 +106,17 @@ import { deleteDoc, query, collection, getDocs, DocumentData, orderBy, Timestamp
 import { auth, db } from '../../firebase/firebase';
 import { useModal, useToast } from 'vuestic-ui'
 
-interface offices {
+interface contacts {
     id: number,
-    country: string,
-    address: string,
-    address2: string,
+    name: string,
+    email: string,
+    message: string,
 }
 
 export default defineComponent({
   data() {
     return {
-      offices: [] as offices[]
+      contacts: [] as contacts[]
     };
   },
   created() {
@@ -127,17 +124,17 @@ export default defineComponent({
   },
   methods: {
     async getLatestNews(): Promise<void> {
-      const collectionRef = collection(db, 'offices');
-      const querySnap = await getDocs(query(collectionRef, orderBy('id','asc')));
+      const collectionRef = collection(db, 'contactUs');
+      const querySnap = await getDocs(query(collectionRef, orderBy('id','desc')));
 
       querySnap.forEach((doc: DocumentData) => {
-        this.offices.push(doc.data() as offices);
+        this.contacts.push(doc.data() as contacts);
       });
     },
 
     async deleteData(id: string): Promise<void> {
         const { init: notify } = useToast();
-        await deleteDoc(doc(db, "offices", id));
+        await deleteDoc(doc(db, "contactUs", id));
         notify({
           message: `data has been deleted`,
           color: 'success',
