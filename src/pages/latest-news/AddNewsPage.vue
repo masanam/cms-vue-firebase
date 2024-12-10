@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue';
 import {  db } from '../../firebase/firebase';
 import { useRoute } from 'vue-router';
-import { serverTimestamp, FieldValue, increment, Timestamp, doc, setDoc, addDoc, collection, updateDoc, getDoc, getDocs, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
+import { where, serverTimestamp, FieldValue, increment, Timestamp, doc, setDoc, addDoc, collection, updateDoc, getDoc, getDocs, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
 import { useModal, useToast } from 'vuestic-ui'
 
 export default defineComponent({
@@ -48,9 +48,21 @@ export default defineComponent({
       console.log("submit")
       const { init: notify } = useToast()
       const collectionRef = collection(db, 'latestNews');
-      const snapshot = await getCountFromServer(collectionRef);
-      console.log('count: ', snapshot.data().count);
-      const newInc = snapshot.data().count + 1;
+      const q = query(collectionRef, where("lang", "==", this.board.lang));
+      const snapshot = await getCountFromServer(q);
+      let newInc = snapshot.data().count + 1;
+
+      switch(this.board.lang) {
+          case "ID":
+          newInc = snapshot.data().count + 11;
+            break;
+          case "JP":
+          newInc = snapshot.data().count + 21;
+            break;
+          default:
+          newInc = snapshot.data().count + 1;
+        }
+        // console.log(newInc)
 
       await setDoc(doc(db, 'latestNews', newInc.toString()), {
           id: newInc.toString(),

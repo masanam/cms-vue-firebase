@@ -95,17 +95,6 @@ export default defineComponent({
   }
 });
 </script>
-<style>
-.select {
-  border-radius: 3px;
-  border: 1px solid #333333;
-  padding-left: 3px;
-  -webkit-appearance: menulist !important; /* override vuetify style */
-  -moze-appearance: menulist !important; /* override vuetify style */
-  appearance: menulist !important; /* override vuetify style */
-  margin-bottom: 2rem; /* demo purpose */
-}
-</style>
 <template>
   <div class="bg-white border border-4 rounded-lg shadow relative m-4">
   
