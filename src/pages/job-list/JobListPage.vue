@@ -1,9 +1,12 @@
+<script setup lang="ts">
+  import { useModal, useToast } from 'vuestic-ui'
+  const { confirm } = useModal()
+</script>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { where, deleteDoc, query, collection, getDocs, DocumentData, orderBy, Timestamp, doc, updateDoc, deleteField } from "firebase/firestore";
 import { auth, db } from '../../firebase/firebase';
-import { useModal, useToast } from 'vuestic-ui'
 import TabsComposition from '../../components/TabsComposition.vue';
 import TabComposition from '../../components/TabComposition.vue';
 
@@ -49,15 +52,14 @@ export default defineComponent({
     },
 
     async deleteData(id: string): Promise<void> {
-        const { init: notify } = useToast();
-        await deleteDoc(doc(db, "jobs", id));
-        notify({
-          message: `data has been deleted`,
-          color: 'success',
-        });
-        setTimeout(() => location.reload(), 1000);
-        
-      }
+      const { init: notify } = useToast();
+      const result = await confirm('Are you really sure you want to delete this?')
+        if (result) {
+              await deleteDoc(doc(db, "jobs", id));
+              setTimeout(() => location.reload(), 500);
+              notify({ message: 'Data has been deleted', color: 'success' });
+          } 
+    }
   }
   
 });

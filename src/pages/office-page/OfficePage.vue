@@ -65,7 +65,7 @@
               color="danger"
               aria-label="Delete data"
               @click="deleteData(item.id.toString())"
-            />
+              />
       </div>
         </td>
       </tr>
@@ -103,11 +103,15 @@
  
 </template>
 
+<script setup lang="ts">
+  import { useModal, useToast } from 'vuestic-ui'
+  const { confirm } = useModal()
+</script>
+
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { deleteDoc, query, collection, getDocs, DocumentData, orderBy, Timestamp, doc, updateDoc, deleteField } from "firebase/firestore";
 import { auth, db } from '../../firebase/firebase';
-import { useModal, useToast } from 'vuestic-ui'
 
 interface offices {
     id: number,
@@ -136,15 +140,15 @@ export default defineComponent({
     },
 
     async deleteData(id: string): Promise<void> {
-        const { init: notify } = useToast();
-        await deleteDoc(doc(db, "offices", id));
-        notify({
-          message: `data has been deleted`,
-          color: 'success',
-        });
-        setTimeout(() => location.reload(), 1000);
-        
-      }
+      const { init: notify } = useToast();
+      const result = await confirm('Are you really sure you want to delete this?')
+        if (result) {
+              await deleteDoc(doc(db, "offices", id));
+              setTimeout(() => location.reload(), 500);
+              notify({ message: 'Data has been deleted', color: 'success' });
+          } 
+    }
+  
   }
   
 });
