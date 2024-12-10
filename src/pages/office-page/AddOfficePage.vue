@@ -13,7 +13,7 @@ export default defineComponent({
         id:"",
         country: "",
         address: "",
-        address2: "",
+        address2: ""
       },
     }
   },

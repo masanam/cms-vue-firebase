@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue';
 import {  db } from '../../firebase/firebase';
 import { useRoute } from 'vue-router';
-import { serverTimestamp, FieldValue, increment, Timestamp, doc, setDoc, addDoc, collection, updateDoc, getDoc, getDocs, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
+import { where, serverTimestamp, FieldValue, increment, Timestamp, doc, setDoc, addDoc, collection, updateDoc, getDoc, getDocs, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
 import { useModal, useToast } from 'vuestic-ui'
 
 export default defineComponent({
@@ -28,14 +28,26 @@ export default defineComponent({
   methods: {
     async onSubmit (evt: { preventDefault: () => void; }) {
       evt.preventDefault()
-      console.log("submit")
       const { init: notify } = useToast()
-      const collectionRef = collection(db, 'latestNews');
-      const snapshot = await getCountFromServer(collectionRef);
-      console.log('count: ', snapshot.data().count);
-      const newInc = snapshot.data().count + 1;
+      const collectionRef = collection(db, 'blogs');
+      const q = query(collectionRef, where("lang", "==", this.board.lang));
+      const snapshot = await getCountFromServer(q);
+      let newInc = snapshot.data().count + 1;
 
-      await setDoc(doc(db, 'latestNews', newInc.toString()), {
+      switch(this.board.lang) {
+          case "ID":
+          newInc = snapshot.data().count + 101;
+            break;
+          case "JP":
+          newInc = snapshot.data().count + 201;
+            break;
+          default:
+          newInc = snapshot.data().count + 11;
+        }
+      
+      // console.log('count: ', snapshot.data().count);
+
+      await setDoc(doc(db, 'blogs', newInc.toString()), {
           id: newInc.toString(),
           image: this.board.image,
           title: this.board.title,
@@ -45,7 +57,7 @@ export default defineComponent({
           published: serverTimestamp(),
           view: this.board.view,
           comment: this.board.comment,
-
+          lang: this.board.lang,
       })
 
       notify({
@@ -116,19 +128,19 @@ export default defineComponent({
               </div>
 
               <div class="col-span-full">
-                <label for="comment" class="text-sm font-medium text-gray-900 block mb-2">Language</label>
-                <select name="comment" id="comment" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.lang">
-                  <option value="EN">English</option>
-                  <option value="ID">Indonesia</option>
-                  <option value="JP">Japan</option>
+                <label for="lang" class="text-sm font-medium text-gray-900 block mb-2">Language</label>
+                  <select id="lang" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.lang">
+                  <option value="EN" selected>English</option>
+                  <option value="ID" selected>Indonesia</option>
+                  <option value="JP" selected>Japan</option>
                 </select>
               </div>
 
 
-              <div class="col-span-full">
+              <!-- <div class="col-span-full">
                 <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Published</label>
                 <input readonly type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.published">
-              </div>
+              </div> -->
           </div>
   </div>
   

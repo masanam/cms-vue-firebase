@@ -14,6 +14,7 @@ export default defineComponent({
         id:"",
         question: "",
         answer: "",
+        lang:""
       },
     }
   },
@@ -33,6 +34,7 @@ export default defineComponent({
           id: newInc.toString(),
           image: this.board.question,
           title: this.board.answer,
+          lang:""
       })
 
       notify({
@@ -69,6 +71,15 @@ export default defineComponent({
                   <label for="answer" class="text-sm font-medium text-gray-900 block mb-2">Answer</label>
                   <textarea id="answer" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.answer">{{board.answer}}</textarea>
               </div>
+              <div class="col-span-full">
+                <label for="lang" class="text-sm font-medium text-gray-900 block mb-2">Language</label>
+                  <select id="lang" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.lang">
+                  <option value="EN" selected>English</option>
+                  <option value="ID" selected>Indonesia</option>
+                  <option value="JP" selected>Japan</option>
+                </select>
+              </div>
+
           </div>
   </div>
   

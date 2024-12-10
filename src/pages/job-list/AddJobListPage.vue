@@ -17,6 +17,7 @@ export default defineComponent({
         content: "",
         button: "",
         published: "",
+        lang:""
       },
     }
   },
@@ -59,6 +60,7 @@ export default defineComponent({
           content: this.board.content,
           published: serverTimestamp(),
           button: this.board.button,
+          lang:this.board.lang
       })
 
       notify({
@@ -124,9 +126,18 @@ export default defineComponent({
                   <input type="text" name="button" id="button" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.button" >
               </div>
               <div class="col-span-full">
+                <label for="lang" class="text-sm font-medium text-gray-900 block mb-2">Language</label>
+                  <select id="lang" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.lang">
+                  <option value="EN" selected>English</option>
+                  <option value="ID" selected>Indonesia</option>
+                  <option value="JP" selected>Japan</option>
+                </select>
+              </div>
+
+              <!-- <div class="col-span-full">
                 <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Published</label>
                 <input type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.published">
-              </div>
+              </div> -->
           </div>
   </div>
   
