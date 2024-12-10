@@ -103,11 +103,15 @@ export default defineComponent({
 
                 <div class="col-span-full">
                 <label for="lang" class="text-sm font-medium text-gray-900 block mb-2">Language</label>
-                  <select id="lang" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.lang">
-                  <option value="EN" selected>English</option>
-                  <option value="ID" selected>Indonesia</option>
-                  <option value="JP" selected>Japan</option>
-                </select>
+                <v-select density="comfortable"
+                v-model="board.lang" :items="[
+                    {name: 'English', code: 'EN'},
+                    {name: 'Indonesia', code: 'ID'},
+                    {name: 'Japan', code: 'JP'},
+                    ]" item-title="name" item-value="code"
+                    :rules="[(v) => !!v || 'Language is required']"
+                    required
+                    />
               </div>
 
               <!-- <div class="col-span-full">

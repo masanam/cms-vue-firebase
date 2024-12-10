@@ -2,13 +2,25 @@
 import { defineComponent } from 'vue';
 import {  db } from '../../firebase/firebase';
 import { useRoute } from 'vue-router';
-import { where, serverTimestamp, FieldValue, increment, Timestamp, doc, setDoc, addDoc, collection, updateDoc, getDoc, getDocs, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
-import { useModal, useToast } from 'vuestic-ui'
+import { where, serverTimestamp, DocumentData, doc, setDoc, addDoc, collection, updateDoc, getDoc, getDocs, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
+import { useModal, useToast, VaSelect } from 'vuestic-ui'
+  
+interface Category {
+    id : number,
+    name: string,
+    link: string,
+    }
 
 export default defineComponent({
   name: 'AddBoard',
   data () {
     return {
+      categories: [] as Category[],
+      countries:[
+        {title: 'English', code: 'EN'},
+        {title: 'Indonesia', code: 'ID'},
+        {title: 'Japan', code: 'JP'},
+      ],
       board: {
         id:"",
         image: "",
@@ -24,6 +36,7 @@ export default defineComponent({
     }
   },
   created () {
+    this.getCategory();
   },  
   methods: {
     async onSubmit (evt: { preventDefault: () => void; }) {
@@ -67,6 +80,14 @@ export default defineComponent({
 
       this.$router.push({ name: 'blog-page' })
     },
+    async getCategory(): Promise<void> {
+      const collectionRef = collection(db, 'categories');
+      const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
+      querySnap.forEach((doc: DocumentData) => {
+        this.categories.push(doc.data() as Category);
+      });
+    },
+
     onCancel() {
       this.$router.push({ name: 'blog-page' })
     }
@@ -74,6 +95,17 @@ export default defineComponent({
   }
 });
 </script>
+<style>
+.select {
+  border-radius: 3px;
+  border: 1px solid #333333;
+  padding-left: 3px;
+  -webkit-appearance: menulist !important; /* override vuetify style */
+  -moze-appearance: menulist !important; /* override vuetify style */
+  appearance: menulist !important; /* override vuetify style */
+  margin-bottom: 2rem; /* demo purpose */
+}
+</style>
 <template>
   <div class="bg-white border border-4 rounded-lg shadow relative m-4">
   
@@ -89,7 +121,11 @@ export default defineComponent({
             <div class="col-span-full">
               <div class="col-span-full">
                 <label for="subtitle" class="text-sm font-medium text-gray-900 block mb-2">Category</label>
-                  <input type="text" name="subtitle" id="subtitle" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.category">
+                <v-select density="comfortable"
+                    v-model="board.category" :items="categories" item-title="name" item-value="name"
+                    :rules="[(v) => !!v || 'Category is required']"
+                    required
+                    />
               </div>
               <label for="title" class="text-sm font-medium text-gray-900 block mb-2">Title</label>
                   <input type="text" name="title" id="title" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.title">
@@ -129,13 +165,16 @@ export default defineComponent({
 
               <div class="col-span-full">
                 <label for="lang" class="text-sm font-medium text-gray-900 block mb-2">Language</label>
-                  <select id="lang" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.lang">
-                  <option value="EN" selected>English</option>
-                  <option value="ID" selected>Indonesia</option>
-                  <option value="JP" selected>Japan</option>
-                </select>
+                <v-select density="comfortable"
+                v-model="board.lang" :items="[
+                    {name: 'English', code: 'EN'},
+                    {name: 'Indonesia', code: 'ID'},
+                    {name: 'Japan', code: 'JP'},
+                    ]" item-title="name" item-value="code"
+                    :rules="[(v) => !!v || 'Language is required']"
+                    required
+                    />
               </div>
-
 
               <!-- <div class="col-span-full">
                 <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Published</label>
