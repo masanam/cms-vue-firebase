@@ -51,20 +51,24 @@ export default defineComponent({
       const q = query(collectionRef, where("lang", "==", this.board.lang));
       const snapshot = await getCountFromServer(q);
       let newInc = snapshot.data().count + 1;
+      let newUid = "";
+
 
       switch(this.board.lang) {
           case "ID":
-          newInc = snapshot.data().count + 11;
+          newInc = snapshot.data().count + 2001;
+          newUid = "ID"+newInc.toString();
             break;
           case "JP":
-          newInc = snapshot.data().count + 21;
+          newInc = snapshot.data().count + 3001;
+          newUid = "JP"+newInc.toString();
             break;
           default:
-          newInc = snapshot.data().count + 1;
+          newInc = snapshot.data().count + 1001;
+          newUid = "EN"+newInc.toString();
         }
-        // console.log(newInc)
 
-      await setDoc(doc(db, 'latestNews', newInc.toString()), {
+        await setDoc(doc(db, 'latestNews', newUid), {
           id: newInc.toString(),
           image: this.board.image,
           title: this.board.title,
@@ -73,7 +77,6 @@ export default defineComponent({
           published: serverTimestamp(),
           author: this.board.author,
           lang: this.board.lang,
-
       })
 
       notify({
