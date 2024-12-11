@@ -19,8 +19,8 @@ export default {
       },
     },
     {
-      name: 'latest-news',
-      displayName: 'menu.latest-news',
+      name: 'blog-page',
+      displayName: 'menu.blog-page',
       meta: {
         icon: 'vuestic-iconset-files',
       },
@@ -49,13 +49,6 @@ export default {
     {
       name: 'faq-page',
       displayName: 'menu.faq-page',
-      meta: {
-        icon: 'vuestic-iconset-files',
-      },
-    },
-    {
-      name: 'blog-page',
-      displayName: 'menu.blog-page',
       meta: {
         icon: 'vuestic-iconset-files',
       },

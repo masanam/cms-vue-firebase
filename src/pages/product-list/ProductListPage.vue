@@ -99,7 +99,7 @@ export default defineComponent({
                   Image
               </th>
               <th class="p-4 border-b border-slate-300 bg-slate-50">
-                  Price
+                  Link
               </th>
               <th class="p-4 border-b border-slate-300 bg-slate-50">
                   Button
