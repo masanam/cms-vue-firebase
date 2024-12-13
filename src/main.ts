@@ -16,6 +16,9 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+
 const vuetify = createVuetify({
   components,
   directives,
@@ -28,6 +31,7 @@ app.use(router)
 app.use(i18n)
 app.use(createVuestic({ config: vuesticGlobalConfig }))
 app.use(vuetify)
+app.component('QuillEditor', QuillEditor)
 
 if (import.meta.env.VITE_APP_GTM_ENABLED) {
   app.use(

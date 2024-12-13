@@ -18,6 +18,7 @@ export default defineComponent({
         price: "",
         button: "",
         published: "",
+        lang: "",
       },
     }
   },
@@ -37,6 +38,7 @@ export default defineComponent({
           price: docSnap.data().price,
           published: docSnap.data().published.toDate().toDateString(),
           button: docSnap.data().button,
+          lang: docSnap.data().lang,
         };
         // console.log(this.board);
       } else {
@@ -104,6 +106,11 @@ export default defineComponent({
                 <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Published</label>
                 <input type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.published">
               </div>
+              <div class="col-span-full">
+                <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Language</label>
+                <input readonly type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.lang">
+              </div>
+
           </div>
   </div>
   

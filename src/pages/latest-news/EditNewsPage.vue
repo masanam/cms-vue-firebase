@@ -28,6 +28,7 @@ export default defineComponent({
         content: "",
         author: "",
         published: "",
+        lang:""
       },
     };
   },
@@ -81,6 +82,7 @@ export default defineComponent({
           content: docSnap.data()?.content || "",
           published: docSnap.data()?.published.toDate().toDateString() || "",
           author: docSnap.data()?.author || "",
+          lang: docSnap.data()?.lang || "",
         };
       } else {
         console.log('Document does not exist');
@@ -148,6 +150,11 @@ export default defineComponent({
                 <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Published</label>
                 <input readonly type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.published">
               </div>
+              <div class="col-span-full">
+                <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Language</label>
+                <input readonly type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.lang">
+              </div>
+
           </div>
   </div>
   

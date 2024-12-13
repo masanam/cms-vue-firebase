@@ -2,17 +2,26 @@
 import { defineComponent } from 'vue';
 import {  db } from '../../firebase/firebase';
 import { useRoute } from 'vue-router';
-import { serverTimestamp, FieldValue, increment, Timestamp, doc, setDoc, addDoc, collection, updateDoc, getDoc, getDocs, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
+import { serverTimestamp, DocumentData, FieldValue, increment, Timestamp, doc, setDoc, addDoc, collection, updateDoc, getDoc, getDocs, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
 import { comment } from 'postcss';
-import Editor from '@tinymce/tinymce-vue';
+
+interface Category {
+    id : number,
+    name: string,
+    link: string,
+    }
 
 export default defineComponent({
-  components: {'editor': Editor },
   name: 'EditBoard',
   data () {
     const route = useRoute()
     return {
-      apiKey : import.meta.env.VITE_TINYMCE_API_KEY,
+      categories: [] as Category[],
+      countries:[
+        {title: 'English', code: 'EN'},
+        {title: 'Indonesia', code: 'ID'},
+        {title: 'Japan', code: 'JP'},
+      ],
       key: route.params.id,
       board: {
         image: "",
@@ -23,13 +32,23 @@ export default defineComponent({
         view: "",
         comment: "",
         published: "",
+        lang: "",
+        author: "",
       },
     }
   },
   created () {
     this.getBlogs();
+    this.getCategory();
   },  
   methods: {
+    async getCategory(): Promise<void> {
+      const collectionRef = collection(db, 'categories');
+      const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
+      querySnap.forEach((doc: DocumentData) => {
+        this.categories.push(doc.data() as Category);
+      });
+    },
     async getBlogs(): Promise<void> {
       const id = this.key.toString()
       const docRef = doc(db, "blogs",id );
@@ -44,6 +63,9 @@ export default defineComponent({
           published: docSnap.data().published.toDate().toDateString(),
           view: docSnap.data().view,
           comment: docSnap.data().comment,
+          lang: docSnap.data().lang,
+          author: docSnap.data().author,
+
         };
         // console.log(this.board);
       } else {
@@ -64,6 +86,8 @@ export default defineComponent({
           // published: serverTimestamp(),
           view: this.board.view,
           comment: this.board.comment,
+          author: this.board.author,
+
       })
     },
     onCancel() {
@@ -87,27 +111,31 @@ export default defineComponent({
           <div class="grid grid-cols-6 gap-6">
               <div class="col-span-full">
                   <label for="subtitle" class="text-sm font-medium text-gray-900 block mb-2">Category</label>
-                  <input type="text" name="subtitle" id="subtitle" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.category">
+                  <v-select density="comfortable"
+                    v-model="board.category" :items="categories" item-title="name" item-value="name"
+                    :rules="[(v) => !!v || 'Category is required']"
+                    required
+                    />
               </div>
+              <div class="col-span-full">
+                <label for="author" class="text-sm font-medium text-gray-900 block mb-2">Author</label>
+                  <input type="text" name="author" id="author" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.author">
+              </div>
+
               <div class="col-span-full">
                 <label for="title" class="text-sm font-medium text-gray-900 block mb-2">Title</label>
                   <input type="text" name="title" id="title" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.title">
               </div>
               <div class="col-span-full">
                   <label for="subTitle" class="text-sm font-medium text-gray-900 block mb-2">Sub Title</label>
-                  <input type="text" name="subTitle" id="subTitle" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.subTitle">
-              </div>
+                  <textarea id="subTitle" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.subTitle">{{board.subTitle}}</textarea>
+                </div>
 
               <div class="col-span-full">
                   <label for="content" class="text-sm font-medium text-gray-900 block mb-2">Content</label>
-                  <editor
-                  :init="{
-                    height: 300,
-                    plugins: 'lists link image table code help wordcount',
-                  }"
-                    :api-key="apiKey"
-                    v-model="board.content"
-                  />
+                  <div>
+                    <QuillEditor v-model:content="board.content" contentType="html" theme="snow" style="height: 200px"/>
+                  </div>
 
                   <!-- <textarea id="content" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.content">{{board.content}}</textarea> -->
               </div>
@@ -144,6 +172,11 @@ export default defineComponent({
                 <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Published</label>
                 <input readonly type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.published">
               </div>
+              <div class="col-span-full">
+                <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Language</label>
+                <input readonly type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.lang">
+              </div>
+
           </div>
   </div>
   

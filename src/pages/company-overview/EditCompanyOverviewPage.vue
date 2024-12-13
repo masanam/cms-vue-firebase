@@ -19,6 +19,7 @@ export default defineComponent({
         address2: "",
         phone: "",
         business: "",
+        lang:""
       },
     }
   },
@@ -40,6 +41,8 @@ export default defineComponent({
           address2: docSnap.data().address2,
           phone: docSnap.data().phone,
           business: docSnap.data().business,
+          lang: docSnap.data().lang,
+
 
         };
         // console.log(this.board);
@@ -114,6 +117,10 @@ export default defineComponent({
               <div class="col-span-full">
                 <label for="business" class="text-sm font-medium text-gray-900 block mb-2">Business</label>
                 <input type="text" name="business" id="business" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.business">
+              </div>
+              <div class="col-span-full">
+                <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Language</label>
+                <input readonly type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.lang">
               </div>
 
           </div>

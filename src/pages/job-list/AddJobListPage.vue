@@ -4,10 +4,8 @@ import {  db } from '../../firebase/firebase';
 import { useRoute } from 'vue-router';
 import { where, serverTimestamp, FieldValue, increment, Timestamp, doc, setDoc, addDoc, collection, updateDoc, getDoc, getDocs, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
 import { useModal, useToast } from 'vuestic-ui'
-import Editor from '@tinymce/tinymce-vue';
 
 export default defineComponent({
-  components: {'editor': Editor },
   name: 'AddBoard',
   data () {
     return {
@@ -120,39 +118,17 @@ export default defineComponent({
               </div>
               <div class="col-span-full">
                   <label for="content" class="text-sm font-medium text-gray-900 block mb-2">Content</label>
-                  <editor
-                  :init="{
-                    height: 300,
-                    plugins: 'lists link image table code help wordcount',
-                  }"
-                    :api-key="apiKey"
-                    v-model="board.content"
-                  />
-
-                  <!-- <textarea id="content" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.content">{{board.content}}</textarea> -->
-              </div>
-              <div class="col-span-full">
-                  <label for="content" class="text-sm font-medium text-gray-900 block mb-2">Content</label>
-                  <editor
-                  :init="{
-                    height: 300,
-                    plugins: 'lists link image table code help wordcount',
-                  }"
-                    :api-key="apiKey"
-                    v-model="board.content"
-                  />
+                  <div>
+                    <QuillEditor v-model:content="board.content" contentType="html" theme="snow" style="height: 200px"/>
+                  </div>
+                 
                   <!-- <textarea id="content" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.content">{{board.content}}</textarea> -->
               </div>
               <div class="col-span-full">
                   <label for="subTitle" class="text-sm font-medium text-gray-900 block mb-2">Side Content</label>
-                  <editor
-                  :init="{
-                    height: 300,
-                    plugins: 'lists link image table code help wordcount',
-                  }"
-                    :api-key="apiKey"
-                    v-model="board.subTitle"
-                  />
+                  <div>
+                    <QuillEditor v-model:content="board.subTitle" contentType="html" theme="snow" style="height: 200px"/>
+                  </div>
                   <!-- <textarea id="content" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.content">{{board.content}}</textarea> -->
               </div>
 

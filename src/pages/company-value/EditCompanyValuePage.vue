@@ -14,6 +14,7 @@ export default defineComponent({
         title: "",
         subTitle: "",
         icon: "",
+        lang:""
       },
     }
   },
@@ -30,6 +31,7 @@ export default defineComponent({
           title: docSnap.data().title,
           subTitle: docSnap.data().subTitle,
           icon: docSnap.data().icon,
+          lang: docSnap.data().lang,
         };
         // console.log(this.board);
       } else {
@@ -93,6 +95,10 @@ export default defineComponent({
                     class="z-10"
                   />
                 </VaFileUpload>
+                <div class="col-span-full">
+                <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Language</label>
+                <input readonly type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.lang">
+              </div>
 
           </div>
   </div>

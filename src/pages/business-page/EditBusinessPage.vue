@@ -17,6 +17,7 @@ export default defineComponent({
         content: "",
         placeholder: "",
         button: "",
+        lang:""
       },
     }
   },
@@ -36,6 +37,7 @@ export default defineComponent({
           content: docSnap.data().content,
           placeholder: docSnap.data().placeholder,
           button: docSnap.data().button,
+          lang:docSnap.data().lang
         };
         // console.log(this.board);
       } else {
@@ -54,7 +56,6 @@ export default defineComponent({
           content: this.board.content,
           placeholder: this.board.placeholder,
           button: this.board.button,
-
       })
     },
     onCancel() {
@@ -116,6 +117,11 @@ export default defineComponent({
                 <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Placeholder</label>
                 <input type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.placeholder">
               </div>
+              <div class="col-span-full">
+                <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Language</label>
+                <input readonly type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.lang">
+              </div>
+
           </div>
   </div>
   

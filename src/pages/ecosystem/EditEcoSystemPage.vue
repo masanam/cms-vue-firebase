@@ -13,6 +13,7 @@ export default defineComponent({
       board: {
         title: "",
         subTitle: "",
+        lang:""
       },
     }
   },
@@ -28,6 +29,7 @@ export default defineComponent({
         this.board = {
           title: docSnap.data().title,
           subTitle: docSnap.data().subTitle,
+          lang: docSnap.data().lang,
         };
         // console.log(this.board);
       } else {
@@ -71,6 +73,11 @@ export default defineComponent({
                 <label for="subtitle" class="text-sm font-medium text-gray-900 block mb-2">SubTitle</label>
                   <input type="text" name="subtitle" id="subtitle" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.subTitle">
               </div>
+              <div class="col-span-full">
+                <label for="placeholder" class="text-sm font-medium text-gray-900 block mb-2">Language</label>
+                <input readonly type="text" name="placeholder" id="placeholder" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.lang">
+              </div>
+
           </div>
   </div>
   
