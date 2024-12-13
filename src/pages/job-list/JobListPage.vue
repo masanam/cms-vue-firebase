@@ -16,6 +16,7 @@ interface jobs {
     title: string,
     button: string,
     published: Timestamp,
+    location: string,
     content: string
 }
 
@@ -115,7 +116,7 @@ export default defineComponent({
                 {{ item.title }}
               </td>
               <td class="p-4 border-b border-slate-200">
-                {{ item.subTitle }}
+                {{ item.location }}
               </td>
               <td class="p-4 border-b border-slate-200">
                 {{ item.button }}

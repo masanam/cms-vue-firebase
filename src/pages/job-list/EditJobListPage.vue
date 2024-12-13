@@ -3,18 +3,21 @@ import { defineComponent } from 'vue';
 import {  db } from '../../firebase/firebase';
 import { useRoute } from 'vue-router';
 import { serverTimestamp, FieldValue, increment, Timestamp, doc, setDoc, addDoc, collection, updateDoc, getDoc, getDocs, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
-import { SubTitle } from 'chart.js';
+import Editor from '@tinymce/tinymce-vue';
 
 export default defineComponent({
+  components: {'editor': Editor },
   name: 'EditBoard',
   data () {
     const route = useRoute()
     return {
+      apiKey : import.meta.env.VITE_TINYMCE_API_KEY,
       key: route.params.id,
       board: {
         image: "",
         title: "",
         subTitle: "",
+        location:"",
         content: "",
         button: "",
         published: "",
@@ -34,6 +37,7 @@ export default defineComponent({
           image: docSnap.data().image,
           title: docSnap.data().title,
           subTitle: docSnap.data().subTitle,
+          location: docSnap.data().location,
           content: docSnap.data().content,
           published: docSnap.data().published.toDate().toDateString(),
           button: docSnap.data().button,
@@ -53,7 +57,7 @@ export default defineComponent({
           title: this.board.title,
           subTitle: this.board.subTitle,
           content: this.board.content,
-          // published: serverTimestamp(),
+          location: this.board.location,
           button: this.board.button,
 
       })
@@ -78,17 +82,38 @@ export default defineComponent({
   <div class="p-6 space-y-6">
           <div class="grid grid-cols-6 gap-6">
             <div class="col-span-full">
-              <div class="col-span-full">
-                <label for="subtitle" class="text-sm font-medium text-gray-900 block mb-2">Location</label>
-                  <input type="text" name="subtitle" id="subtitle" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.subTitle">
+                <label for="location" class="text-sm font-medium text-gray-900 block mb-2">Location</label>
+                  <input type="text" name="location" id="location" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.location">
               </div>
+              <div class="col-span-full">
               <label for="title" class="text-sm font-medium text-gray-900 block mb-2">Title</label>
                   <input type="text" name="title" id="title" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.title">
               </div>
               <div class="col-span-full">
                   <label for="content" class="text-sm font-medium text-gray-900 block mb-2">Content</label>
-                  <textarea id="content" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.content">{{board.content}}</textarea>
+                  <editor
+                  :init="{
+                    height: 300,
+                    plugins: 'lists link image table code help wordcount',
+                  }"
+                    :api-key="apiKey"
+                    v-model="board.content"
+                  />
+                  <!-- <textarea id="content" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.content">{{board.content}}</textarea> -->
               </div>
+              <div class="col-span-full">
+                  <label for="subTitle" class="text-sm font-medium text-gray-900 block mb-2">Side Content</label>
+                  <editor
+                  :init="{
+                    height: 300,
+                    plugins: 'lists link image table code help wordcount',
+                  }"
+                    :api-key="apiKey"
+                    v-model="board.subTitle"
+                  />
+                  <!-- <textarea id="content" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.content">{{board.content}}</textarea> -->
+              </div>
+
               <div class="col-span-full">
                 <label for="image" class="text-sm font-medium text-gray-900 block mb-2">Image</label>
                   <input type="text" name="image" id="image" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.image" >

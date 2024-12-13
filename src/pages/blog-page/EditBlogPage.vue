@@ -4,12 +4,15 @@ import {  db } from '../../firebase/firebase';
 import { useRoute } from 'vue-router';
 import { serverTimestamp, FieldValue, increment, Timestamp, doc, setDoc, addDoc, collection, updateDoc, getDoc, getDocs, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
 import { comment } from 'postcss';
+import Editor from '@tinymce/tinymce-vue';
 
 export default defineComponent({
+  components: {'editor': Editor },
   name: 'EditBoard',
   data () {
     const route = useRoute()
     return {
+      apiKey : import.meta.env.VITE_TINYMCE_API_KEY,
       key: route.params.id,
       board: {
         image: "",
@@ -97,7 +100,16 @@ export default defineComponent({
 
               <div class="col-span-full">
                   <label for="content" class="text-sm font-medium text-gray-900 block mb-2">Content</label>
-                  <textarea id="content" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.content">{{board.content}}</textarea>
+                  <editor
+                  :init="{
+                    height: 300,
+                    plugins: 'lists link image table code help wordcount',
+                  }"
+                    :api-key="apiKey"
+                    v-model="board.content"
+                  />
+
+                  <!-- <textarea id="content" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.content">{{board.content}}</textarea> -->
               </div>
               <div class="col-span-full">
                 <label for="image" class="text-sm font-medium text-gray-900 block mb-2">Image</label>
