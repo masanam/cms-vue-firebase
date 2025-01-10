@@ -118,11 +118,11 @@ export default defineComponent({
           subTitle: this.board.subTitle,
           category: this.board.category,
           content: this.board.content,
-          published: serverTimestamp(),
-          view: this.board.view,
-          comment: this.board.comment,
           lang: this.board.lang,
           author: this.board.author,
+          published: serverTimestamp(),
+          view: "1",
+          comment: "0",
           active: "1",
       })
 

@@ -129,10 +129,10 @@ export default defineComponent({
           category: this.board.category,
           content: this.board.content,
           // published: serverTimestamp(),
-          view: this.board.view,
-          comment: this.board.comment,
+          // view: this.board.view,
+          // comment: this.board.comment,
           author: this.board.author,
-          active: this.board.active,
+          // active: this.board.active,
       })
     },
     onCancel() {
