@@ -1,9 +1,10 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
-import {  db } from '../../firebase/firebase';
+import { defineComponent, ref } from 'vue';
+import {  db, storage } from '../../firebase/firebase';
 import { useRoute } from 'vue-router';
 import { serverTimestamp, DocumentData, FieldValue, increment, Timestamp, doc, setDoc, addDoc, collection, updateDoc, getDoc, getDocs, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
 import { comment } from 'postcss';
+import { ref as storageRef , uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 
 interface Category {
     id : number,
@@ -16,6 +17,7 @@ export default defineComponent({
   data () {
     const route = useRoute()
     return {
+      file: ref<File | null>(null),
       categories: [] as Category[],
       countries:[
         {title: 'English', code: 'EN'},
@@ -34,6 +36,7 @@ export default defineComponent({
         published: "",
         lang: "",
         author: "",
+        active: "",
       },
     }
   },
@@ -42,6 +45,48 @@ export default defineComponent({
     this.getCategory();
   },  
   methods: {
+    handleFileChange(e: Event): void {
+      const target = e.target as HTMLInputElement;
+      // this.file = target.files![0];
+
+      if (target.files) {
+        this.file = target.files[0];
+      }
+    },
+
+    uploadFile(file: File): void {
+        const { name, type } = file;
+        const storageReference = storageRef(storage, 'images/' + name);
+        const uploadTask = uploadBytesResumable(storageReference, file, {
+        contentType: type
+      });
+
+        uploadTask.on(
+          'state_changed',
+          (snapshot: { bytesTransferred: number; totalBytes: number }) => {
+            const progress: number = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+          },
+          (error: unknown) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL: string) => {
+                this.board.image = downloadURL
+              // ... and call a fn that writes a document to a firestore
+            });
+          }
+        );
+      },
+
+      submitForm() {
+      // just quick & simple validation
+      if (this.file) {
+        this.uploadFile(this.file)
+        return
+      }
+    },
+
     async getCategory(): Promise<void> {
       const collectionRef = collection(db, 'categories');
       const querySnap = await getDocs(query(collectionRef, orderBy('id', 'asc')));
@@ -65,7 +110,7 @@ export default defineComponent({
           comment: docSnap.data().comment,
           lang: docSnap.data().lang,
           author: docSnap.data().author,
-
+          active: docSnap.data().active,
         };
         // console.log(this.board);
       } else {
@@ -87,7 +132,7 @@ export default defineComponent({
           view: this.board.view,
           comment: this.board.comment,
           author: this.board.author,
-
+          active: this.board.active,
       })
     },
     onCancel() {
@@ -140,32 +185,13 @@ export default defineComponent({
                   <!-- <textarea id="content" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" v-model="board.content">{{board.content}}</textarea> -->
               </div>
               <div class="col-span-full">
+                <div v-if="board.image != ''">                     
+                   <img class="preview" height="268" width="356" :src="board.image">
+                <br>
+              </div>   
                 <label for="image" class="text-sm font-medium text-gray-900 block mb-2">Image</label>
-                  <input type="text" name="image" id="image" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.image" >
-              </div>
-              <VaFileUpload
-                  type="single"
-                  hide-file-list
-                  class="self-stretch justify-start items-center gap-4 inline-flex"
-                >
-                  <UserAvatar size="large" />
-                  <VaButton preset="primary" class="p-2" size="small">Add image</VaButton>
-                  <VaButton
-                    preset="primary"
-                    color="danger"
-                    size="small"
-                    icon="delete"
-                    class="z-10"
-                  />
-                </VaFileUpload>
-
-              <div class="col-span-full">
-                <label for="view" class="text-sm font-medium text-gray-900 block mb-2">View</label>
-                <input type="text" name="view" id="view" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.view" >
-              </div>
-              <div class="col-span-full">
-                <label for="comment" class="text-sm font-medium text-gray-900 block mb-2">Comment</label>
-                <input type="text" name="comment" id="comment" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.comment" >
+                  <input @change="handleFileChange" type="file" name="image" id="file" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" >
+                  <br/><VaButton class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" size="small" @click="submitForm()">Upload Image</VaButton>
               </div>
 
               <div class="col-span-full">

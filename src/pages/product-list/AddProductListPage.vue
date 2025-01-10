@@ -17,6 +17,7 @@ export default defineComponent({
         price: "",
         button: "",
         published: "",
+        active: "",
         lang:""
       },
     }
@@ -50,13 +51,14 @@ export default defineComponent({
         // console.log(newInc)
 
       await setDoc(doc(db, 'products', newUid), {
-          id: newInc.toString(),
+          id: newUid.toString(),
           image: this.board.image,
           title: this.board.title,
           subTitle: this.board.subTitle,
           price: this.board.price,
           published: serverTimestamp(),
           button: this.board.button,
+          active: "1",
           lang: this.board.lang
       })
 

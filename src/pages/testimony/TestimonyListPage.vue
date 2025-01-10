@@ -55,7 +55,10 @@ export default defineComponent({
       const { init: notify } = useToast();
       const result = await confirm('Are you really sure you want to delete this?')
         if (result) {
-              await deleteDoc(doc(db, "testimonies", id));
+              await updateDoc(doc(db, 'testimonies', id), {
+                active: "0",
+              });
+
               setTimeout(() => location.reload(), 500);
               notify({ message: 'Data has been deleted', color: 'success' });
           } 

@@ -49,12 +49,13 @@ export default defineComponent({
         }
 
       await setDoc(doc(db, 'testimonies', newUid), {
-          id: newInc.toString(),
+          id: newUid.toString(),
           image: this.board.image,
           title: this.board.title,
           comment: this.board.comment,
           name: this.board.name,
           lang: this.board.lang,
+          active: "1",
           published: serverTimestamp(),
       })
 

@@ -14,6 +14,7 @@ export default defineComponent({
         id:"",
         question: "",
         answer: "",
+        active: "",
         lang:""
       },
     }
@@ -46,10 +47,11 @@ export default defineComponent({
         }
 
       await setDoc(doc(db, 'faqs', newUid), {
-          id: newInc.toString(),
+          id: newUid.toString(),
           image: this.board.question,
           title: this.board.answer,
-          lang:""
+          lang: this.board.lang,
+          active:"1"
       })
 
       notify({

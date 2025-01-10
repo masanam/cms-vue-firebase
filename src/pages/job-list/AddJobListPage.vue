@@ -19,6 +19,7 @@ export default defineComponent({
         content: "",
         button: "",
         published: "",
+        active: "",
         lang:""
       },
     }
@@ -71,7 +72,7 @@ export default defineComponent({
         // console.log(newInc)
 
       await setDoc(doc(db, 'jobs', newUid), {
-          id: newInc.toString(),
+          id: newUid.toString(),
           image: this.board.image,
           title: this.board.title,
           subTitle: this.board.subTitle,
@@ -79,7 +80,8 @@ export default defineComponent({
           content: this.board.content,
           published: serverTimestamp(),
           button: this.board.button,
-          lang:this.board.lang
+          lang:this.board.lang,
+          active: "1",
       })
 
       notify({

@@ -18,7 +18,9 @@ interface blogs {
     view: string,
     comment: string,
     published: Timestamp,
-    content: string
+    content: string,
+    active: string
+
 }
 
 export default defineComponent({
@@ -37,15 +39,15 @@ export default defineComponent({
   methods: {
     async getLatestNews(): Promise<void> {
       const collectionRef = collection(db, 'blogs');
-      const querySnap = await getDocs(query(collectionRef, where("lang", "==", "EN"), orderBy('id', 'asc')));
+      const querySnap = await getDocs(query(collectionRef, where("lang", "==", "EN"), where("active", "==", "1"), orderBy('id', 'asc')));
       querySnap.forEach((doc: DocumentData) => {
         this.blogs.push(doc.data() as blogs);
       });
-      const querySnapID = await getDocs(query(collectionRef, where("lang", "==", "ID"), orderBy('id', 'asc')));
+      const querySnapID = await getDocs(query(collectionRef, where("lang", "==", "ID"), where("active", "==", "1"), orderBy('id', 'asc')));
       querySnapID.forEach((doc: DocumentData) => {
         this.blogsID.push(doc.data() as blogs);
       });
-      const querySnapJP = await getDocs(query(collectionRef, where("lang", "==", "JP"), orderBy('id', 'asc')));
+      const querySnapJP = await getDocs(query(collectionRef, where("lang", "==", "JP"), where("active", "==", "1"), orderBy('id', 'asc')));
       querySnapJP.forEach((doc: DocumentData) => {
         this.blogsJP.push(doc.data() as blogs);
       });
@@ -56,7 +58,10 @@ export default defineComponent({
       const { init: notify } = useToast();
       const result = await confirm('Are you really sure you want to delete this?')
         if (result) {
-              await deleteDoc(doc(db, "blogs", id));
+              // await deleteDoc(doc(db, "blogs", id));
+              await updateDoc(doc(db, 'blogs', id), {
+                active: "0",
+              });
               setTimeout(() => location.reload(), 500);
               notify({ message: 'Data has been deleted', color: 'success' });
           } 
@@ -130,7 +135,7 @@ export default defineComponent({
                 {{ item.subTitle }}
               </td>
               <td class="align-top p-4 border-b border-slate-200">
-                {{ item.image }}
+                <img class="preview" height="500" width="500" :src="item.image">
               </td>
               <td class="align-top p-4 border-b border-slate-200">
                 {{ item.view }}
@@ -228,7 +233,7 @@ export default defineComponent({
                 {{ item.subTitle }}
               </td>
               <td class="align-top p-4 border-b border-slate-200">
-                {{ item.image }}
+                <img class="preview" height="500" width="500" :src="item.image">
               </td>
               <td class="align-top p-4 border-b border-slate-200">
                 {{ item.view }}
@@ -326,7 +331,7 @@ export default defineComponent({
                 {{ item.subTitle }}
               </td>
               <td class="align-top p-4 border-b border-slate-200">
-                {{ item.image }}
+                <img class="preview" height="500" width="500" :src="item.image">
               </td>
               <td class="align-top p-4 border-b border-slate-200">
                 {{ item.view }}
