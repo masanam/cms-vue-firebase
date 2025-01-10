@@ -1,15 +1,16 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
-import {  db } from '../../firebase/firebase';
+import { defineComponent, ref } from 'vue';
+import {  db, storage } from '../../firebase/firebase';
 import { useRoute } from 'vue-router';
 import { serverTimestamp, FieldValue, increment, Timestamp, doc, setDoc, addDoc, collection, updateDoc, getDoc, getDocs, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
-import { SubTitle } from 'chart.js';
+import { ref as storageRef , uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 
 export default defineComponent({
   name: 'EditBoard',
   data () {
     const route = useRoute()
     return {
+      file: ref<File | null>(null),
       key: route.params.id,
       board: {
         image: "",
@@ -19,6 +20,7 @@ export default defineComponent({
         button: "",
         published: "",
         lang: "",
+        active: "",
       },
     }
   },
@@ -26,6 +28,47 @@ export default defineComponent({
     this.getLatestNews();
   },  
   methods: {
+    handleFileChange(e: Event): void {
+      const target = e.target as HTMLInputElement;
+      // this.file = target.files![0];
+
+      if (target.files) {
+        this.file = target.files[0];
+      }
+    },
+
+    uploadFile(file: File): void {
+        const { name, type } = file;
+        const storageReference = storageRef(storage, 'images/' + name);
+        const uploadTask = uploadBytesResumable(storageReference, file, {
+        contentType: type
+      });
+
+        uploadTask.on(
+          'state_changed',
+          (snapshot: { bytesTransferred: number; totalBytes: number }) => {
+            const progress: number = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+          },
+          (error: unknown) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL: string) => {
+                this.board.image = downloadURL
+              // ... and call a fn that writes a document to a firestore
+            });
+          }
+        );
+      },
+
+      submitForm() {
+      // just quick & simple validation
+      if (this.file) {
+        this.uploadFile(this.file)
+        return
+      }
+    },
     async getLatestNews(): Promise<void> {
       const id = this.key.toString()
       const docRef = doc(db, "products",id );
@@ -39,6 +82,7 @@ export default defineComponent({
           published: docSnap.data().published.toDate().toDateString(),
           button: docSnap.data().button,
           lang: docSnap.data().lang,
+          active: docSnap.data().active,
         };
         // console.log(this.board);
       } else {
@@ -93,9 +137,13 @@ export default defineComponent({
               </div>
 
               <div class="col-span-full">
+                <div v-if="board.image != ''">                     
+                   <img class="preview" height="268" width="356" :src="board.image">
+                <br>
+              </div>   
                 <label for="image" class="text-sm font-medium text-gray-900 block mb-2">Image</label>
-                <img :src="`${board.image}`"  class="p-2 h-15 w-auto" alt="Mirai Logo" />
-                <input type="text" name="image" id="image" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" v-model="board.image" >
+                  <input @change="handleFileChange" type="file" name="image" id="file" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" >
+                  <br/><VaButton class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" size="small" @click="submitForm()">Upload Image</VaButton>
               </div>
               <!-- <AdvancedImage :cld-img="cloudinary.createImageInstance(`${board.image}`)" :plugins="cloudinary.plugins" /> -->
               <div class="col-span-full">

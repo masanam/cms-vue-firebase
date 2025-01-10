@@ -127,7 +127,7 @@ export default defineComponent({
                 {{ item.subTitle }}
               </td>
               <td class="align-top p-4 border-b border-slate-200">
-                {{ item.image }}
+                <img class="preview" height="500" width="500" :src="item.image">
               </td>
               <td class="align-top p-4 border-b border-slate-200">
                 {{ item.price }}
@@ -218,7 +218,7 @@ export default defineComponent({
                 {{ item.subTitle }}
               </td>
               <td class="align-top p-4 border-b border-slate-200">
-                {{ item.image }}
+                <img class="preview" height="500" width="500" :src="item.image">
               </td>
               <td class="align-top p-4 border-b border-slate-200">
                 {{ item.price }}
@@ -309,7 +309,7 @@ export default defineComponent({
                 {{ item.subTitle }}
               </td>
               <td class="align-top p-4 border-b border-slate-200">
-                {{ item.image }}
+                <img class="preview" height="500" width="500" :src="item.image">
               </td>
               <td class="align-top p-4 border-b border-slate-200">
                 {{ item.price }}
